@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Health App</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">My profile</string>
+    <string name="create_profile_title">Profile</string>
+    <string name="create_profile_fname">First name</string>
+    <string name="create_profile_lname">Last name</string>
+    <string name="create_profile_date">Birthdate</string>
+    <string name="create_profile_weight">Weight</string>
+    <string name="create_profile_height">Height</string>
+    <string name="create_profile_gender">Gender</string>
+    <string name="create_profile_female">Female</string>
+    <string name="create_profile_male">Male</string>
+    <string name="create_profile_carbs">Carbs per day</string>
+    <string name="create_profile_snacks">Snacks per day</string>
+    <string name="create_profile_meals">Meals per day</string>
+    <string name="create_profile_inj">Number of injections</string>
+    <string name="treatment_profile_title">Treatment profile</string>
+    <string name="menu_treatmenr">Treatment profile</string>
+    <string name="create_profile_save">Save</string>
+</resources>
