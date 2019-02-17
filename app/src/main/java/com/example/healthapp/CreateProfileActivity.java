@@ -1,15 +1,14 @@
 package com.example.healthapp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -18,7 +17,6 @@ import com.example.healthapp.util.Constants;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.TooManyListenersException;
 
 public class CreateProfileActivity extends AppCompatActivity {
 
