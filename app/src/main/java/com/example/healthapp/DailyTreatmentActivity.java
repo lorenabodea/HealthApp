@@ -30,14 +30,17 @@ public class DailyTreatmentActivity extends AppCompatActivity {
         nrOfCarbsTie = findViewById(R.id.dailytreatment_carbs_tie);
         nroffUnitsTie = findViewById(R.id.dailytreatment_nrofshots_tie);
 
-        
+
     }
 
     private View.OnClickListener createMenuOnClick() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+
+                double nrOfCarbs = Double.parseDouble(nrOfCarbsTie.getText().toString());
+
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class).putExtra("nrOfCarbs", nrOfCarbs);
                 startActivity(intent);
             }
         };

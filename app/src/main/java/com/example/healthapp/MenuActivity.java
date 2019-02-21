@@ -1,6 +1,7 @@
 package com.example.healthapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ public class MenuActivity extends AppCompatActivity {
     TextView remainingCarbsTV;
     Nutrients nutrients = new Nutrients(0.0, 0.0);
     List<Nutrients> nutrientsList;
-    Double remainingCarbs = 180.0;
+    Double remainingCarbs;
     Double totalKcals = 0.0;
 
     @Override
@@ -39,6 +40,9 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void init() {
+
+
+
         typeFood = findViewById(R.id.menu_type_food_tie);
         quantity = findViewById(R.id.menu_quantity);
         addBtn = findViewById(R.id.menu_add_btn);
@@ -47,6 +51,8 @@ public class MenuActivity extends AppCompatActivity {
         remainingCarbsTV.setText(remainingCarbs + " left and "+ totalKcals +" consumed");
 
         nutrientsList = new ArrayList<>();
+
+        remainingCarbs =Double.parseDouble(getIntent().getStringExtra("nrOfCarbs")) ;
     }
 
     private View.OnClickListener addBtnClickEvent() {
