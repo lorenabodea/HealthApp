@@ -1,8 +1,11 @@
 package com.example.healthapp;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -28,8 +31,10 @@ public class MenuActivity extends AppCompatActivity {
     TextView remainingCarbsTV;
     Nutrients nutrients = new Nutrients(0.0, 0.0);
     List<Nutrients> nutrientsList;
-    Double remainingCarbs;
+    Double remainingCarbs = 0.0;
     Double totalKcals = 0.0;
+    AlertDialog.Builder builder;
+    Double nrOfCarbs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +46,19 @@ public class MenuActivity extends AppCompatActivity {
 
     private void init() {
 
-
-
         typeFood = findViewById(R.id.menu_type_food_tie);
         quantity = findViewById(R.id.menu_quantity);
         addBtn = findViewById(R.id.menu_add_btn);
         addBtn.setOnClickListener(addBtnClickEvent());
-        remainingCarbsTV = findViewById(R.id.menu_remainingCarbs_tv);
-        remainingCarbsTV.setText(remainingCarbs + " left and "+ totalKcals +" consumed");
 
         nutrientsList = new ArrayList<>();
 
-        remainingCarbs =Double.parseDouble(getIntent().getStringExtra("nrOfCarbs")) ;
+       String nrOfCarbs =getIntent().getStringExtra("nrOfCarbs");
+        remainingCarbs = Double.parseDouble(nrOfCarbs);
+        remainingCarbsTV = findViewById(R.id.menu_remainingCarbs_tv);
+        remainingCarbsTV.setText(remainingCarbs + " left and "+ totalKcals +" consumed");
+
+        builder = new AlertDialog.Builder(this);
     }
 
     private View.OnClickListener addBtnClickEvent() {
@@ -60,6 +66,9 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isValid()){
+
+
+
                     final String foodName = typeFood.getText().toString();
                     final Integer quant = Integer.parseInt(quantity.getText().toString());
                     String URL;
@@ -78,14 +87,39 @@ public class MenuActivity extends AppCompatActivity {
                                 if(FoodParser.fromJson(s)==null){
                                     typeFood.setError("No food found with the name: "+ typeFood.getText().toString()+" was found");
                                 }else{
-                                    Double nrOfCarbs = FoodParser.fromJson(s).getCarbs();
+                                    nrOfCarbs = FoodParser.fromJson(s).getCarbs();
                                     nutrients.setCarbs(nrOfCarbs);
                                     Double nrOfKcals = FoodParser.fromJson(s).getCalories();
                                     nutrients.setCalories(nrOfKcals);
                                     nutrientsList.add(nutrients);
-                                    remainingCarbs-=nrOfCarbs/100*quant;
                                     totalKcals = quant*nrOfKcals/100;
-                                    remainingCarbsTV.setText(remainingCarbs + " carbs left and "+totalKcals+" calories consumed");
+
+                                    if(remainingCarbs-nrOfCarbs/100*quant <0){
+                                        //dialog to inform user that he has exceeded the set nrOfCarbs
+                                        builder.setMessage(R.string.dialog_ok) .setTitle(R.string.dialog_title);
+
+                                        builder.setMessage(R.string.dialog_exceededCarbs_text)
+                                                .setCancelable(false)
+                                                .setPositiveButton(R.string.dialog_exceeded_ok_text, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.cancel();
+                                                    }
+                                                })
+                                                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        remainingCarbs-=nrOfCarbs/100*quant;
+                                                        remainingCarbsTV.setText(-remainingCarbs + " carbs exceeded and "+totalKcals+" calories consumed");
+                                                        dialog.cancel();
+                                                    }
+                                                });
+
+                                        AlertDialog alert = builder.create();
+                                        alert.setTitle("AlertDialogExample");
+                                        alert.show();
+                                    }else{
+                                        remainingCarbs-=nrOfCarbs/100*quant;
+                                        remainingCarbsTV.setText(remainingCarbs + " carbs left and "+totalKcals+" calories consumed");
+                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

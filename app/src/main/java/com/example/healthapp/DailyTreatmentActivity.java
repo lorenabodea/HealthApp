@@ -39,8 +39,9 @@ public class DailyTreatmentActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 double nrOfCarbs = Double.parseDouble(nrOfCarbsTie.getText().toString());
+                Integer n = (int)nrOfCarbs;
 
-                Intent intent = new Intent(getApplicationContext(), MenuActivity.class).putExtra("nrOfCarbs", nrOfCarbs);
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class).putExtra("nrOfCarbs",n.toString());
                 startActivity(intent);
             }
         };

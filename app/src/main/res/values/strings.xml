@@ -29,4 +29,10 @@
     <string name="dailytreatment_carbs">Number of carbs</string>
     <string name="dailytreatment_nrofshots">Number of units per shot</string>
     <string name="dailytreatment_add_menu_btn">Create menu</string>
+    <string name="dialog_text">Question</string>
+    <string name="dialog_title">Are you sure?</string>
+    <string name="dialog_ok">Ok</string>
+    <string name="dialog_exceededCarbs_text">You have exceeded your limit or carbohydrates</string>
+    <string name="dialog_exceeded_ok_text">Ok, I will pick something else</string>
+    <string name="dialog_cancel">I am aware. I will adjust my treatment</string>
 </resources>
