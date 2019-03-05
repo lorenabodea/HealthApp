@@ -30,7 +30,6 @@ public class CreateTreatmentProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_treatment_profile);
 
         initComponents();
-        spinnerListeners();
     }
 
     private void initComponents() {
@@ -113,11 +112,6 @@ public class CreateTreatmentProfileActivity extends AppCompatActivity {
 
     }
 
-    private void spinnerListeners(){
-
-
-
-    }
 
     public boolean onCreateOptionsMenu(Menu menu) {
 

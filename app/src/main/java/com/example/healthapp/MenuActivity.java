@@ -108,7 +108,7 @@ public class MenuActivity extends AppCompatActivity {
                                                 .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int id) {
                                                         remainingCarbs-=nrOfCarbs/100*quant;
-                                                        remainingCarbsTV.setText(-remainingCarbs + " carbs exceeded and "+totalKcals+" calories consumed");
+                                                        remainingCarbsTV.setText(-remainingCarbs.intValue() + " carbs exceeded and "+totalKcals.intValue()+" calories consumed");
                                                         dialog.cancel();
                                                     }
                                                 });
@@ -118,8 +118,11 @@ public class MenuActivity extends AppCompatActivity {
                                         alert.show();
                                     }else{
                                         remainingCarbs-=nrOfCarbs/100*quant;
-                                        remainingCarbsTV.setText(remainingCarbs + " carbs left and "+totalKcals+" calories consumed");
+                                        remainingCarbsTV.setText(remainingCarbs.intValue() + " carbs left and "+totalKcals.intValue()+" calories consumed");
                                     }
+
+                                    typeFood.getText().clear();
+                                    quantity.getText().clear();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

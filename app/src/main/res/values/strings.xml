@@ -35,4 +35,10 @@
     <string name="dialog_exceededCarbs_text">You have exceeded your limit or carbohydrates</string>
     <string name="dialog_exceeded_ok_text">Ok, I will pick something else</string>
     <string name="dialog_cancel">I am aware. I will adjust my treatment</string>
+    <string name="glycemic_profile_before_rb">Before meal</string>
+    <string name="glycemic_profile_after_rb">After meal</string>
+    <string name="glycemic_profile_blood_sugar">Blood sugar level</string>
+    <string name="glycemic_profile_save_btn">Save</string>
+    <string name="main_glycemic_profile_btn">Complete glycemic profile</string>
+    <string name="daily_treatment_blood_sugar_level_attention">Blood level is too high!</string>
 </resources>

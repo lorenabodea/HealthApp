@@ -11,8 +11,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button createMenuBtn;
     Button addDailyTreatment;
+    Button glycemicProfile;
 
 
 
@@ -21,12 +21,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        createMenuBtn = findViewById(R.id.main_create_menu_btn);
-//        createMenuBtn.setOnClickListener(createMenuOnClick());
-
         addDailyTreatment = findViewById(R.id.main_daily_treatment_btn);
         addDailyTreatment.setOnClickListener(addDailyTreatmentOnclick());
+        glycemicProfile = findViewById(R.id.main_glycemic_profile_btn);
+        glycemicProfile.setOnClickListener(glycemicProfileOnClick());
 
+    }
+
+    private View.OnClickListener glycemicProfileOnClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GlycemicProfileActivity.class);
+                startActivity(intent);
+            }
+        };
     }
 
     private View.OnClickListener addDailyTreatmentOnclick() {
@@ -35,16 +44,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), DailyTreatmentActivity.class);
                 startActivity(intent);
-            }
-        };
-    }
-
-    private View.OnClickListener createMenuOnClick() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                 startActivity(intent);
             }
         };
     }
