@@ -29,6 +29,7 @@ public class GlycemicProfileActivity extends AppCompatActivity {
     TextInputEditText bloodsugarLevelTie;
     RadioButton beforeMealBtn;
     Button save;
+    Spinner spinner;
 
 
     @Override
@@ -47,6 +48,31 @@ public class GlycemicProfileActivity extends AppCompatActivity {
         save = findViewById(R.id.glycemic_profile_save_btn);
 
         save.setOnClickListener(saveEvent());
+
+        spinner = findViewById(R.id.create_treatment_profile_spinner);
+
+        List<String> timeOfTheMeal = new ArrayList<>();
+        timeOfTheMeal.add("Breakfast");
+        timeOfTheMeal.add("Lunch");
+        timeOfTheMeal.add("Dinner");
+
+        ArrayAdapter<String> mealsAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, timeOfTheMeal);
+        mealsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(mealsAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String string = spinner.getSelectedItem().toString();
+                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         bloodsugarLevelTie.addTextChangedListener(new TextWatcher() {
 
