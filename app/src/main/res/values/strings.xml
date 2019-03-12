@@ -41,4 +41,12 @@
     <string name="glycemic_profile_save_btn">Save</string>
     <string name="main_glycemic_profile_btn">Complete glycemic profile</string>
     <string name="daily_treatment_blood_sugar_level_attention">Blood level is too high!</string>
+    <string name="create_treatment_profile_carbs_per_day">Carbs per day</string>
+    <string name="create_treatment_profile_shots_text">Number of  carbs per meal:</string>
+    <string name="create_reatmen_profile_i1_tv">Breakfast</string>
+    <string name="create_reatmen_profile_i2_tv">Lunch</string>
+    <string name="create_reatmen_profile_i3_tv">Dinner</string>
+    <string name="create_reatmen_profile_i4_tv">Snack</string>
+    <string name="create_treatment_profile_iis_tv">Number of units per shot for:</string>
+    <string name="create_reatmen_profile_c4_sp">Night</string>
 </resources>
