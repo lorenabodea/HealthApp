@@ -7,22 +7,28 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateTreatmentProfileActivity extends AppCompatActivity {
 
-    private TextInputEditText carbsPerDay;
-    private Spinner meals;
-    private Spinner snacks;
-    private Spinner shots;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
+
+    private TextInputEditText carbsPerDay;
+    private TextInputEditText dayTreatmentName;
+    private TextInputEditText nightTreatmentName;
+    private Spinner shot1;
+    private Spinner shot2;
+    private Spinner shot3;
+    private Spinner shot4;
+    private Spinner meal1;
+    private Spinner meal2;
+    private Spinner meal3;
+    private Spinner meal4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,20 @@ public class CreateTreatmentProfileActivity extends AppCompatActivity {
 
     private void initComponents() {
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("tratments");
+
+        carbsPerDay = findViewById(R.id.create_treatment_profile_carbs_per_day_tie);
+        dayTreatmentName = findViewById(R.id.create_treatment_profile_t1_name_te);
+        nightTreatmentName = findViewById(R.id.create_treatment_profile_t2_name_te);
+        shot1 = findViewById(R.id.create_reatmen_profile_i1_sp);
+        shot2 = findViewById(R.id.create_reatmen_profile_i2_sp);
+        shot3 = findViewById(R.id.create_reatmen_profile_i4_sp);
+        shot4 = findViewById(R.id.create_reatmen_profile_i4_sp);
+        meal1 = findViewById(R.id.create_treatmen_profile_c1_sp);
+        meal2 = findViewById(R.id.create_treatmen_profile_c2_sp);
+        meal3 = findViewById(R.id.create_treatmen_profile_c3_sp);
+        meal4 = findViewById(R.id.create_treatmen_profile_c4_sp);
 
 //        List<Integer> mealsNumber = new ArrayList<>();
 //        mealsNumber.add(1);
