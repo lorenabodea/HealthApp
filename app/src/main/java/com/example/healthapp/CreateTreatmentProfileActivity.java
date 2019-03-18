@@ -33,82 +33,78 @@ public class CreateTreatmentProfileActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        carbsPerDay = findViewById(R.id.treatment_profile_carbs_tie);
-        meals = findViewById(R.id.treatment_meals_spinner);
-        snacks = findViewById(R.id.treatment_snacks_spinner);
-        shots = findViewById(R.id.treatment_injections_spinner);
 
-        List<Integer> mealsNumber = new ArrayList<>();
-        mealsNumber.add(1);
-        mealsNumber.add(2);
-        mealsNumber.add(3);
-        mealsNumber.add(4);
 
-        ArrayAdapter<Integer> mealsAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, mealsNumber);
-        mealsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        meals.setAdapter(mealsAdapter);
-
-        List<Integer> snacksNumber = new ArrayList<>();
-        snacksNumber.add(1);
-        snacksNumber.add(2);
-        snacksNumber.add(3);
-        snacksNumber.add(4);
-
-        ArrayAdapter<Integer> snacksAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, snacksNumber);
-        snacksAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        snacks.setAdapter(snacksAdapter);
-
-        List<Integer> shotsNumber = new ArrayList<>();
-        shotsNumber.add(1);
-        shotsNumber.add(2);
-        shotsNumber.add(3);
-        shotsNumber.add(4);
-
-        ArrayAdapter<Integer> shotsAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, shotsNumber);
-        shotsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        shots.setAdapter(shotsAdapter);
-
-      meals.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = meals.getSelectedItem().toString();
-                Integer number = Integer.parseInt(string);
-                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        snacks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = snacks.getSelectedItem().toString();
-                Integer number = Integer.parseInt(string);
-                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        shots.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = shots.getSelectedItem().toString();
-                Integer number = Integer.parseInt(string);
-                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        List<Integer> mealsNumber = new ArrayList<>();
+//        mealsNumber.add(1);
+//        mealsNumber.add(2);
+//        mealsNumber.add(3);
+//        mealsNumber.add(4);
+//
+//        ArrayAdapter<Integer> mealsAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, mealsNumber);
+//        mealsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        meals.setAdapter(mealsAdapter);
+//
+//        List<Integer> snacksNumber = new ArrayList<>();
+//        snacksNumber.add(1);
+//        snacksNumber.add(2);
+//        snacksNumber.add(3);
+//        snacksNumber.add(4);
+//
+//        ArrayAdapter<Integer> snacksAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, snacksNumber);
+//        snacksAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        snacks.setAdapter(snacksAdapter);
+//
+//        List<Integer> shotsNumber = new ArrayList<>();
+//        shotsNumber.add(1);
+//        shotsNumber.add(2);
+//        shotsNumber.add(3);
+//        shotsNumber.add(4);
+//
+//        ArrayAdapter<Integer> shotsAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, shotsNumber);
+//        shotsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        shots.setAdapter(shotsAdapter);
+//
+//      meals.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+////                String string = meals.getSelectedItem().toString();
+////                Integer number = Integer.parseInt(string);
+//                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//
+//        snacks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+////                String string = snacks.getSelectedItem().toString();
+////                Integer number = Integer.parseInt(string);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//
+//        shots.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//               // String string = shots.getSelectedItem().toString();
+//                Integer number = Integer.parseInt(string);
+//                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
     }
 

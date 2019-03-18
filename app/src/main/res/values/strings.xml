@@ -49,4 +49,7 @@
     <string name="create_reatmen_profile_i4_tv">Snack</string>
     <string name="create_treatment_profile_iis_tv">Number of units per shot for:</string>
     <string name="create_reatmen_profile_c4_sp">Night</string>
+    <string name="create_treatment_profile_t1_name">Day treatment name</string>
+    <string name="create_treatment_profile_t2_name">Night treatment name</string>
+    <string name="create_treatment_ptrofile_save_btn">Save</string>
 </resources>
