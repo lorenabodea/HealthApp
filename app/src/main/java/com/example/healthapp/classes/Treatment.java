@@ -6,14 +6,14 @@ public class Treatment {
     private Integer carbsMeal2;
     private Integer carbsMeal3;
     private Integer carbsMeal4;
-    private Float shot1;
-    private Float shot2;
-    private Float shot3;
-    private Float shot4;
+    private Double shot1;
+    private Double shot2;
+    private Double shot3;
+    private Double shot4;
     private String dayTreatmentName;
     private String nightTreatmentName;
 
-    public Treatment(Integer carbsperDay, Integer carbsMeal1, Integer carbsMeal2, Integer carbsMeal3, Integer carbsMeal4, Float shot1, Float shot2, Float shot3, Float shot4, String dayTreatmentName, String nightTreatmentName) {
+    public Treatment(Integer carbsperDay, Integer carbsMeal1, Integer carbsMeal2, Integer carbsMeal3, Integer carbsMeal4, Double shot1, Double shot2, Double shot3, Double shot4, String dayTreatmentName, String nightTreatmentName) {
         this.carbsperDay = carbsperDay;
         this.carbsMeal1 = carbsMeal1;
         this.carbsMeal2 = carbsMeal2;
@@ -67,35 +67,35 @@ public class Treatment {
         this.carbsMeal4 = carbsMeal4;
     }
 
-    public Float getShot1() {
+    public Double getShot1() {
         return shot1;
     }
 
-    public void setShot1(Float shot1) {
+    public void setShot1(Double shot1) {
         this.shot1 = shot1;
     }
 
-    public Float getShot2() {
+    public Double getShot2() {
         return shot2;
     }
 
-    public void setShot2(Float shot2) {
+    public void setShot2(Double shot2) {
         this.shot2 = shot2;
     }
 
-    public Float getShot3() {
+    public Double getShot3() {
         return shot3;
     }
 
-    public void setShot3(Float shot3) {
+    public void setShot3(Double shot3) {
         this.shot3 = shot3;
     }
 
-    public Float getShot4() {
+    public Double getShot4() {
         return shot4;
     }
 
-    public void setShot4(Float shot4) {
+    public void setShot4(Double shot4) {
         this.shot4 = shot4;
     }
 
@@ -114,6 +114,4 @@ public class Treatment {
     public void setNightTreatmentName(String nightTreatmentName) {
         this.nightTreatmentName = nightTreatmentName;
     }
-
-
 }
