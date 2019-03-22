@@ -19,17 +19,24 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.healthapp.classes.GlycemicProfile;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class GlycemicProfileActivity extends AppCompatActivity {
 
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     RadioGroup rg;
-    Boolean beforeMeal;
+    static Boolean beforeMeal;
     TextInputEditText bloodsugarLevelTie;
     RadioButton beforeMealBtn;
     Button save;
     Spinner spinner;
+    static String timeOfTheDay;
 
 
     @Override
@@ -41,6 +48,10 @@ public class GlycemicProfileActivity extends AppCompatActivity {
     }
 
     private void init() {
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("message");
+
         bloodsugarLevelTie = findViewById(R.id.glycemic_profile_blood_sugar_te);
         rg = findViewById(R.id.glycemic_profile_rg);
         beforeMealBtn = findViewById(R.id.glycemic_profile_before_radioBtn);
@@ -51,7 +62,7 @@ public class GlycemicProfileActivity extends AppCompatActivity {
 
         spinner = findViewById(R.id.create_treatment_profile_spinner);
 
-        List<String> timeOfTheMeal = new ArrayList<>();
+        final List<String> timeOfTheMeal = new ArrayList<>();
         timeOfTheMeal.add("Breakfast");
         timeOfTheMeal.add("Lunch");
         timeOfTheMeal.add("Dinner");
@@ -63,13 +74,24 @@ public class GlycemicProfileActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = spinner.getSelectedItem().toString();
-                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
+                timeOfTheDay = spinner.getSelectedItem().toString();
+                Toast.makeText(getApplicationContext(), timeOfTheDay, Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId==R.id.glycemic_profile_before_radioBtn){
+                    beforeMeal = true;
+                }else {
+                    beforeMeal=false;
+                }
             }
         });
 
@@ -112,19 +134,13 @@ public class GlycemicProfileActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        if(checkedId==R.id.glycemic_profile_before_radioBtn){
-                            beforeMeal = true;
-                        }else {
-                            beforeMeal=false;
-                        }
-                    }
-                });
-
                 Integer bloodLevel = Integer.parseInt(bloodsugarLevelTie.getText().toString());
+                GlycemicProfile glycemicProfile = new GlycemicProfile(timeOfTheDay, beforeMeal, bloodLevel);
+
+                databaseReference.setValue("hello");
+
+               //String id =  databaseReference.push().getKey();
+               // databaseReference.child(id).setValue(glycemicProfile);
 
             }
         };

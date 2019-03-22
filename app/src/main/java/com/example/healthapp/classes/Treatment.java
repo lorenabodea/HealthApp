@@ -114,4 +114,21 @@ public class Treatment {
     public void setNightTreatmentName(String nightTreatmentName) {
         this.nightTreatmentName = nightTreatmentName;
     }
+
+    @Override
+    public String toString() {
+        return "Treatment{" +
+                "carbsperDay=" + carbsperDay +
+                ", carbsMeal1=" + carbsMeal1 +
+                ", carbsMeal2=" + carbsMeal2 +
+                ", carbsMeal3=" + carbsMeal3 +
+                ", carbsMeal4=" + carbsMeal4 +
+                ", shot1=" + shot1 +
+                ", shot2=" + shot2 +
+                ", shot3=" + shot3 +
+                ", shot4=" + shot4 +
+                ", dayTreatmentName='" + dayTreatmentName + '\'' +
+                ", nightTreatmentName='" + nightTreatmentName + '\'' +
+                '}';
+    }
 }

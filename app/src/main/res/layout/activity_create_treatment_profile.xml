@@ -48,7 +48,7 @@
     <Spinner
         android:id="@+id/create_reatmen_profile_i1_sp"
         android:layout_width="74dp"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
