@@ -2,12 +2,22 @@ package com.example.healthapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.healthapp.util.FirebaseUtil;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,12 +31,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FirebaseUtil.openFbReference("menus", this);
+
         addDailyTreatment = findViewById(R.id.main_daily_treatment_btn);
         addDailyTreatment.setOnClickListener(addDailyTreatmentOnclick());
         glycemicProfile = findViewById(R.id.main_glycemic_profile_btn);
         glycemicProfile.setOnClickListener(glycemicProfileOnClick());
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FirebaseUtil.detachListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseUtil.attachListener();
+    }
+
+
 
     private View.OnClickListener glycemicProfileOnClick() {
         return new View.OnClickListener() {
@@ -73,6 +99,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_treatment:
                 intent = new Intent(getApplicationContext(), CreateTreatmentProfileActivity.class);
                 startActivity(intent);
+            case R.id.menu_log_out:
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Log.d("Logout", "User logged out");
+                                FirebaseUtil.attachListener();
+                            }
+                        });
+                FirebaseUtil.detachListener();
             default:
                 break;
         }

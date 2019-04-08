@@ -1,22 +1,26 @@
 package com.example.healthapp;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.healthapp.classes.Menu;
 import com.example.healthapp.network.FoodParser;
 import com.example.healthapp.network.HTTPManager;
+import com.example.healthapp.util.MenuAdapter;
 import com.example.healthapp.util.Nutrients;
 import com.example.healthapp.util.Validations;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 
@@ -35,6 +39,10 @@ public class MenuActivity extends AppCompatActivity {
     Double totalKcals = 0.0;
     AlertDialog.Builder builder;
     Double nrOfCarbs;
+    List<Menu> menus = new ArrayList<>();
+    ListView lv_menus;
+    private MenuAdapter adapter;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +54,19 @@ public class MenuActivity extends AppCompatActivity {
 
     private void init() {
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         typeFood = findViewById(R.id.menu_type_food_tie);
         quantity = findViewById(R.id.menu_quantity);
         addBtn = findViewById(R.id.menu_add_btn);
         addBtn.setOnClickListener(addBtnClickEvent());
+        lv_menus = findViewById(R.id.menu_lv);
 
         nutrientsList = new ArrayList<>();
+
+        adapter = new MenuAdapter(this, R.layout.lv_menus_row, menus, getLayoutInflater());
+        lv_menus.setAdapter(adapter);
+
 
        String nrOfCarbs =getIntent().getStringExtra("nrOfCarbs");
         remainingCarbs = Double.parseDouble(nrOfCarbs);
@@ -59,16 +74,17 @@ public class MenuActivity extends AppCompatActivity {
         remainingCarbsTV.setText(remainingCarbs + " left and "+ totalKcals +" consumed");
 
         builder = new AlertDialog.Builder(this);
+
+        lv_menus.setOnItemLongClickListener(deleteEvent());
     }
+
+
 
     private View.OnClickListener addBtnClickEvent() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isValid()){
-
-
-
                     final String foodName = typeFood.getText().toString();
                     final Integer quant = Integer.parseInt(quantity.getText().toString());
                     String URL;
@@ -127,6 +143,12 @@ public class MenuActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            Menu menu = new Menu(foodName, quant);
+                            menus.add(menu);
+
+                            addInFirebase(menu);
+
+                            notifyAdapter();
                         }
                     };
                     manager.execute(URL);
@@ -138,6 +160,47 @@ public class MenuActivity extends AppCompatActivity {
             }
         };
 
+    }
+
+    private void addInFirebase(Menu menu) {
+        String menuId = mDatabase.push().getKey();
+        mDatabase.child("menus").child(menuId).setValue(menu);
+
+    }
+
+    private AdapterView.OnItemLongClickListener deleteEvent() {
+        return new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
+
+                builder.setTitle(R.string.menu_delete_alert_title)
+                        .setMessage(R.string.menu_delete_alert)
+                        .setPositiveButton(R.string.yes, positiveEventDelete(position))
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+            builder.create().show();
+            return true;
+            }
+        };
+    }
+
+    private DialogInterface.OnClickListener positiveEventDelete(final int position) {
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                menus.remove(position);
+                notifyAdapter();
+            }
+        };
+    }
+
+    private void notifyAdapter() {
+        MenuAdapter adapter = (MenuAdapter) lv_menus.getAdapter();
+        adapter.notifyDataSetChanged();
     }
 
     public boolean isValid(){

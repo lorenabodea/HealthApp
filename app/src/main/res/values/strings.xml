@@ -52,4 +52,10 @@
     <string name="create_treatment_profile_t1_name">Day treatment name</string>
     <string name="create_treatment_profile_t2_name">Night treatment name</string>
     <string name="create_treatment_ptrofile_save_btn">Save</string>
+    <string name="menu_delete_alert">Are you sure you want to delete this item?</string>
+    <string name="menu_delete_alert_title">Delete item</string>
+    <string name="yes">yes</string>
+    <string name="calcel">cancel</string>
+    <string name="no">No</string>
+    <string name="menu_log_out">Log out</string>
 </resources>
