@@ -25,6 +25,14 @@ public class Nutrients {
         this.calories = calories;
     }
 
+    public void addCalories(double calories) {
+        this.calories += calories;
+    }
+
+    public void addCarbs(double carbs) {
+        this.carbs += carbs;
+    }
+
     @Override
     public String toString() {
         return "Nutrients{" +

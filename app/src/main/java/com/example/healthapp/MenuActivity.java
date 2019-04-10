@@ -34,12 +34,12 @@ public class MenuActivity extends AppCompatActivity {
     Button addBtn;
     TextView remainingCarbsTV;
     Nutrients nutrients = new Nutrients(0.0, 0.0);
-    List<Nutrients> nutrientsList;
-    Double remainingCarbs = 0.0;
-    Double totalKcals = 0.0;
+    Double nrOfCarbsLeft = 0.0;
+    Double kcalsConsumed = 0.0;
     AlertDialog.Builder builder;
     Double nrOfCarbs;
     List<Menu> menus = new ArrayList<>();
+    List<Nutrients> nutrientsList = new ArrayList<>();
     ListView lv_menus;
     private MenuAdapter adapter;
     private DatabaseReference mDatabase;
@@ -62,16 +62,14 @@ public class MenuActivity extends AppCompatActivity {
         addBtn.setOnClickListener(addBtnClickEvent());
         lv_menus = findViewById(R.id.menu_lv);
 
-        nutrientsList = new ArrayList<>();
-
         adapter = new MenuAdapter(this, R.layout.lv_menus_row, menus, getLayoutInflater());
         lv_menus.setAdapter(adapter);
 
 
-       String nrOfCarbs =getIntent().getStringExtra("nrOfCarbs");
-        remainingCarbs = Double.parseDouble(nrOfCarbs);
+        String nrOfCarbs = getIntent().getStringExtra("nrOfCarbs");
+        nrOfCarbsLeft = Double.parseDouble(nrOfCarbs);
         remainingCarbsTV = findViewById(R.id.menu_remainingCarbs_tv);
-        remainingCarbsTV.setText(remainingCarbs + " left and "+ totalKcals +" consumed");
+        remainingCarbsTV.setText(nrOfCarbsLeft + " left and " + kcalsConsumed + " consumed");
 
         builder = new AlertDialog.Builder(this);
 
@@ -79,40 +77,41 @@ public class MenuActivity extends AppCompatActivity {
     }
 
 
-
     private View.OnClickListener addBtnClickEvent() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isValid()){
+                if (isValid()) {
                     final String foodName = typeFood.getText().toString();
                     final Integer quant = Integer.parseInt(quantity.getText().toString());
                     String URL;
                     String[] splited = foodName.split("\\s+");
-                    if(splited.length==1){
-                        URL  = "https://api.edamam.com/api/food-database/parser?ingr=" +
+                    if (splited.length == 1) {
+                        URL = "https://api.edamam.com/api/food-database/parser?ingr=" +
                                 foodName + "&app_id=7ac64b8e&app_key=22eb5d58662867094ba13a8880946bb0";
-                    }else{
-                        URL  = "https://api.edamam.com/api/food-database/parser?ingr=" +
-                                splited[0]+"%20"+splited[1] + "&app_id=7ac64b8e&app_key=22eb5d58662867094ba13a8880946bb0";
+                    } else {
+                        URL = "https://api.edamam.com/api/food-database/parser?ingr=" +
+                                splited[0] + "%20" + splited[1] + "&app_id=7ac64b8e&app_key=22eb5d58662867094ba13a8880946bb0";
                     }
-                    @SuppressLint("StaticFieldLeak") HTTPManager manager = new HTTPManager(){
+                    @SuppressLint("StaticFieldLeak") HTTPManager manager = new HTTPManager() {
                         @Override
-                        protected void onPostExecute(String s){
+                        protected void onPostExecute(String s) {
                             try {
-                                if(FoodParser.fromJson(s)==null){
-                                    typeFood.setError("No food found with the name: "+ typeFood.getText().toString()+" was found");
-                                }else{
+                                if (FoodParser.fromJson(s) == null) {
+                                    typeFood.setError("No food found with the name: " + typeFood.getText().toString() + " was found");
+                                } else {
                                     nrOfCarbs = FoodParser.fromJson(s).getCarbs();
-                                    nutrients.setCarbs(nrOfCarbs);
+                                    nutrients.addCarbs(nrOfCarbs);
                                     Double nrOfKcals = FoodParser.fromJson(s).getCalories();
-                                    nutrients.setCalories(nrOfKcals);
+                                    nutrients.addCalories(nrOfKcals);
                                     nutrientsList.add(nutrients);
-                                    totalKcals = quant*nrOfKcals/100;
+                                    kcalsConsumed = quant * nrOfKcals / 100;
+                                    final Menu menu = new Menu(foodName, quant);
 
-                                    if(remainingCarbs-nrOfCarbs/100*quant <0){
+
+                                    if (nrOfCarbsLeft - nrOfCarbs / 100 * quant < 0) {
                                         //dialog to inform user that he has exceeded the set nrOfCarbs
-                                        builder.setMessage(R.string.dialog_ok) .setTitle(R.string.dialog_title);
+                                        builder.setMessage(R.string.dialog_ok).setTitle(R.string.dialog_title);
 
                                         builder.setMessage(R.string.dialog_exceededCarbs_text)
                                                 .setCancelable(false)
@@ -123,8 +122,10 @@ public class MenuActivity extends AppCompatActivity {
                                                 })
                                                 .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int id) {
-                                                        remainingCarbs-=nrOfCarbs/100*quant;
-                                                        remainingCarbsTV.setText(-remainingCarbs.intValue() + " carbs exceeded and "+totalKcals.intValue()+" calories consumed");
+                                                        addInFirebase(menu);
+
+                                                        nrOfCarbsLeft -= nrOfCarbs / 100 * quant;
+                                                        remainingCarbsTV.setText(-nrOfCarbsLeft.intValue() + " carbs exceeded and " + nutrients.getCalories() + " calories consumed");
                                                         dialog.cancel();
                                                     }
                                                 });
@@ -132,9 +133,11 @@ public class MenuActivity extends AppCompatActivity {
                                         AlertDialog alert = builder.create();
                                         alert.setTitle("AlertDialogExample");
                                         alert.show();
-                                    }else{
-                                        remainingCarbs-=nrOfCarbs/100*quant;
-                                        remainingCarbsTV.setText(remainingCarbs.intValue() + " carbs left and "+totalKcals.intValue()+" calories consumed");
+                                    } else {
+                                        addInFirebase(menu);
+
+                                        nrOfCarbsLeft -= nrOfCarbs / 100 * quant;
+                                        remainingCarbsTV.setText(nrOfCarbsLeft.intValue() + " carbs left and " + nutrients.getCalories() + " calories consumed");
                                     }
 
                                     typeFood.getText().clear();
@@ -143,16 +146,13 @@ public class MenuActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            Menu menu = new Menu(foodName, quant);
-                            menus.add(menu);
 
-                            addInFirebase(menu);
 
                             notifyAdapter();
                         }
                     };
                     manager.execute(URL);
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "nu e", Toast.LENGTH_SHORT).show();
                 }
 
@@ -163,6 +163,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void addInFirebase(Menu menu) {
+        menus.add(menu);
         String menuId = mDatabase.push().getKey();
         mDatabase.child("menus").child(menuId).setValue(menu);
 
@@ -182,8 +183,8 @@ public class MenuActivity extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         });
-            builder.create().show();
-            return true;
+                builder.create().show();
+                return true;
             }
         };
     }
@@ -192,6 +193,17 @@ public class MenuActivity extends AppCompatActivity {
         return new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Nutrients nutrientToRemove = nutrientsList.get(position);
+                Menu menuToRemove = menus.get(position);
+                kcalsConsumed -= nutrientToRemove.getCalories() / 100 * menuToRemove.getQuantity();
+                nrOfCarbsLeft += nutrientToRemove.getCarbs() / 100 * menuToRemove.getQuantity();
+
+                if (nrOfCarbsLeft < 0) {
+                    remainingCarbsTV.setText(-nrOfCarbsLeft.intValue() + " carbs exceeded and " + kcalsConsumed.intValue() + " calories consumed");
+                } else {
+                    remainingCarbsTV.setText(nrOfCarbsLeft.intValue() + " carbs left and " + kcalsConsumed.intValue() + " calories consumed");
+                }
+                nutrientsList.remove(position);
                 menus.remove(position);
                 notifyAdapter();
             }
@@ -203,13 +215,13 @@ public class MenuActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    public boolean isValid(){
-        if(Validations.isEmptyField(typeFood.getText().toString())){
+    public boolean isValid() {
+        if (Validations.isEmptyField(typeFood.getText().toString())) {
             typeFood.setError("Insert food");
             return false;
         }
 
-        if(Validations.isEmptyField(quantity.getText().toString())){
+        if (Validations.isEmptyField(quantity.getText().toString())) {
             quantity.setError("Insert quantity");
             return false;
         }
