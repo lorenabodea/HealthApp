@@ -33,7 +33,7 @@ public class MenuActivity extends AppCompatActivity {
     TextInputEditText quantity;
     Button addBtn;
     TextView remainingCarbsTV;
-    Nutrients nutrients = new Nutrients(0.0, 0.0);
+    //Nutrients nutrients = new Nutrients(0.0, 0.0);
     Double nrOfCarbsLeft = 0.0;
     Double kcalsConsumed = 0.0;
     AlertDialog.Builder builder;
@@ -100,14 +100,13 @@ public class MenuActivity extends AppCompatActivity {
                                 if (FoodParser.fromJson(s) == null) {
                                     typeFood.setError("No food found with the name: " + typeFood.getText().toString() + " was found");
                                 } else {
-                                    nrOfCarbs = FoodParser.fromJson(s).getCarbs();
-                                    nutrients.addCarbs(nrOfCarbs);
-                                    Double nrOfKcals = FoodParser.fromJson(s).getCalories();
-                                    nutrients.addCalories(nrOfKcals);
-                                    nutrientsList.add(nutrients);
-                                    kcalsConsumed = quant * nrOfKcals / 100;
-                                    final Menu menu = new Menu(foodName, quant);
 
+                                    nrOfCarbs = FoodParser.fromJson(s).getCarbs();
+                                    Double nrOfKcals = FoodParser.fromJson(s).getCalories();
+                                    Nutrients nutrients = new Nutrients(nrOfCarbs, nrOfKcals);
+                                    nutrientsList.add(nutrients);
+                                    kcalsConsumed += (quant * nrOfKcals) / 100;
+                                    final Menu menu = new Menu(foodName, quant);
 
                                     if (nrOfCarbsLeft - nrOfCarbs / 100 * quant < 0) {
                                         //dialog to inform user that he has exceeded the set nrOfCarbs
@@ -125,7 +124,7 @@ public class MenuActivity extends AppCompatActivity {
                                                         addInFirebase(menu);
 
                                                         nrOfCarbsLeft -= nrOfCarbs / 100 * quant;
-                                                        remainingCarbsTV.setText(-nrOfCarbsLeft.intValue() + " carbs exceeded and " + nutrients.getCalories() + " calories consumed");
+                                                        remainingCarbsTV.setText(-nrOfCarbsLeft.intValue() + " carbs exceeded and " + kcalsConsumed.intValue() + " calories consumed");
                                                         dialog.cancel();
                                                     }
                                                 });
@@ -137,7 +136,7 @@ public class MenuActivity extends AppCompatActivity {
                                         addInFirebase(menu);
 
                                         nrOfCarbsLeft -= nrOfCarbs / 100 * quant;
-                                        remainingCarbsTV.setText(nrOfCarbsLeft.intValue() + " carbs left and " + nutrients.getCalories() + " calories consumed");
+                                        remainingCarbsTV.setText(nrOfCarbsLeft.intValue() + " carbs left and " + kcalsConsumed.intValue() + " calories consumed");
                                     }
 
                                     typeFood.getText().clear();
