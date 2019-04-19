@@ -9,6 +9,15 @@ public class User {
     private double weight;
     private double height;
     private String gender;
+    private String userID;
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
 
     public User(String firstName, String lastNAme, Date date, double weight, double height, String gender) {
         this.firstName = firstName;

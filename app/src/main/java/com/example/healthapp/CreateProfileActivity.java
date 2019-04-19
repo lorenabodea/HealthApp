@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import com.example.healthapp.classes.User;
 import com.example.healthapp.util.Constants;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -28,6 +32,8 @@ public class CreateProfileActivity extends AppCompatActivity {
     private RadioGroup rgGender;
     private Button btnSave;
     String gender;
+
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +52,14 @@ public class CreateProfileActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(R.id.menu_profile);
         item.setVisible(false);
 
+        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+        Toast.makeText(getApplicationContext(), currentFirebaseUser.getUid(), Toast.LENGTH_LONG).show();
+
         return super.onCreateOptionsMenu(menu);
     }
 
     private void initComponents(){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         fName = findViewById(R.id.create_profile_fname_tie);
         lname = findViewById(R.id.create_profile_lname_tie);
@@ -58,8 +68,6 @@ public class CreateProfileActivity extends AppCompatActivity {
         height = findViewById(R.id.create_profile_height_tie);
         rgGender = findViewById(R.id.create_profile_gender_rg);
         btnSave = findViewById(R.id.create_profile_save_btn);
-
-
     }
 
     private View.OnClickListener saveEvent() {
@@ -91,7 +99,12 @@ public class CreateProfileActivity extends AppCompatActivity {
                     }
                 });
                 User user = new User(firstName, lastName, birthDate, w, h, gender);
-                Toast.makeText(getApplicationContext(), user.toString(), Toast.LENGTH_LONG).show();
+                FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+                user.setUserID(currentFirebaseUser.toString());
+                String userId = mDatabase.push().getKey();
+                mDatabase.child(currentFirebaseUser.getUid()+"/add_activity").child(userId).setValue(user);
+
+
             }
         };
     }
