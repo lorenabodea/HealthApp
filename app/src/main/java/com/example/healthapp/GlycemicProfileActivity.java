@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthapp.classes.GlycemicProfile;
+import com.example.healthapp.util.FirebaseUtil;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,8 +29,6 @@ import java.util.List;
 
 public class GlycemicProfileActivity extends AppCompatActivity {
 
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
     RadioGroup rg;
     static Boolean beforeMeal;
     TextInputEditText bloodsugarLevelTie;
@@ -48,9 +47,6 @@ public class GlycemicProfileActivity extends AppCompatActivity {
     }
 
     private void init() {
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("message");
 
         bloodsugarLevelTie = findViewById(R.id.glycemic_profile_blood_sugar_te);
         rg = findViewById(R.id.glycemic_profile_rg);
@@ -135,12 +131,11 @@ public class GlycemicProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Integer bloodLevel = Integer.parseInt(bloodsugarLevelTie.getText().toString());
-                GlycemicProfile glycemicProfile = new GlycemicProfile(timeOfTheDay, beforeMeal, bloodLevel);
+                GlycemicProfile glycemicProfile = new GlycemicProfile(bloodLevel);
 
-                databaseReference.setValue("hello");
+                String id = FirebaseUtil.mDatabase.push().getKey();
+                FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid()+"/glycemic_profile").child(id).setValue(glycemicProfile);
 
-               //String id =  databaseReference.push().getKey();
-               // databaseReference.child(id).setValue(glycemicProfile);
 
             }
         };

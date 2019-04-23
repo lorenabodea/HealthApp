@@ -15,6 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.healthapp.classes.DailyTreatment;
+import com.example.healthapp.util.FirebaseUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,6 +111,12 @@ public class DailyTreatmentActivity extends AppCompatActivity {
 
                 double nrOfCarbs = Double.parseDouble(nrOfCarbsTie.getText().toString());
                 Integer n = (int)nrOfCarbs;
+                Integer bloodSugarLevel = Integer.parseInt(bloodsugarLevelTie.getText().toString());
+                double nrOfShots = Double.parseDouble(nroffUnitsTie.getText().toString());
+
+                DailyTreatment dailyTreatment = new DailyTreatment(bloodSugarLevel, n, nrOfShots);
+                String dailyID = FirebaseUtil.mDatabase.push().getKey();
+                FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid()+"/daily_treatments").child(dailyID).setValue(dailyTreatment);
 
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class).putExtra("nrOfCarbs",n.toString());
                 startActivity(intent);

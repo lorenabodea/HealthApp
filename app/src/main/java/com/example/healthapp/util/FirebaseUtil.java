@@ -6,6 +6,9 @@ import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +18,8 @@ public class FirebaseUtil {
     public static FirebaseAuth.AuthStateListener authStateListener;
     private static Activity caller;
     private static final int RC_SIGN_IN = 9001;
+    public static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    public static FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
 
     public static void openFbReference(String ref, final Activity callerActivity) {
         firebaseAuth = FirebaseAuth.getInstance();

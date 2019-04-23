@@ -11,6 +11,10 @@ public class GlycemicProfile {
         this.bloodSugarLevel = bloodSugarLevel;
     }
 
+    public GlycemicProfile(Integer bloodSugarLevel) {
+        this.bloodSugarLevel = bloodSugarLevel;
+    }
+
     public String getTimeofTheDay() {
         return timeofTheDay;
     }
