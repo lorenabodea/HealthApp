@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthapp.classes.DailyTreatment;
+import com.example.healthapp.classes.GlycemicProfile;
 import com.example.healthapp.util.FirebaseUtil;
 
 import java.util.ArrayList;
@@ -120,6 +121,10 @@ public class DailyTreatmentActivity extends AppCompatActivity {
                 String dailyID = FirebaseUtil.mDatabase.push().getKey();
                 FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid()+"/daily_treatments").child(dailyID).setValue(dailyTreatment);
 
+
+                GlycemicProfile glycemicProfile = new GlycemicProfile(bloodSugarLevel);
+                String id = FirebaseUtil.mDatabase.push().getKey();
+                FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid()+"/glycemic_profile").child(id).setValue(glycemicProfile);
 
 
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class).putExtra("nrOfCarbs",n.toString());
