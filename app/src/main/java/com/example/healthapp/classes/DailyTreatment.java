@@ -4,13 +4,25 @@ public class DailyTreatment {
     private Integer bloodSugarLevel;
     private Integer nrOfCarbs;
     private double nrOfShots;
-    private String timeOfTheDay;
+   // private String timeOfTheDay;
+    private long date;
 
-    public DailyTreatment(Integer bloodSugarLevel, Integer nrOfCarbs, double nrOfShots, String timeOfTheDay) {
+    public DailyTreatment() {
+    }
+
+    public DailyTreatment(Integer bloodSugarLevel, Integer nrOfCarbs, double nrOfShots, long date) {
         this.bloodSugarLevel = bloodSugarLevel;
         this.nrOfCarbs = nrOfCarbs;
         this.nrOfShots = nrOfShots;
-        this.timeOfTheDay = timeOfTheDay;
+        this.date = date;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 
     public DailyTreatment(Integer bloodSugarLevel, Integer nrOfCarbs, double nrOfShots) {
@@ -43,11 +55,11 @@ public class DailyTreatment {
         this.nrOfShots = nrOfShots;
     }
 
-    public String getTimeOfTheDay() {
-        return timeOfTheDay;
-    }
-
-    public void setTimeOfTheDay(String timeOfTheDay) {
-        this.timeOfTheDay = timeOfTheDay;
-    }
+//    public String getTimeOfTheDay() {
+//        return timeOfTheDay;
+//    }
+//
+//    public void setTimeOfTheDay(String timeOfTheDay) {
+//        this.timeOfTheDay = timeOfTheDay;
+//    }
 }

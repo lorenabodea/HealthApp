@@ -111,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                 FirebaseUtil.detachListener();
+            case R.id.menu_graph:
+                intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class);
+                startActivity(intent);
             default:
                 break;
         }

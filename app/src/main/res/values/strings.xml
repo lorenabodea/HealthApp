@@ -58,4 +58,5 @@
     <string name="calcel">cancel</string>
     <string name="no">No</string>
     <string name="menu_log_out">Log out</string>
+    <string name="glycemiy_graph_title">Glycemic graph</string>
 </resources>

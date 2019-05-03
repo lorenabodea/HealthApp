@@ -19,6 +19,7 @@ import com.example.healthapp.classes.DailyTreatment;
 import com.example.healthapp.util.FirebaseUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DailyTreatmentActivity extends AppCompatActivity {
@@ -113,10 +114,13 @@ public class DailyTreatmentActivity extends AppCompatActivity {
                 Integer n = (int)nrOfCarbs;
                 Integer bloodSugarLevel = Integer.parseInt(bloodsugarLevelTie.getText().toString());
                 double nrOfShots = Double.parseDouble(nroffUnitsTie.getText().toString());
+                long date = new Date().getTime();
 
-                DailyTreatment dailyTreatment = new DailyTreatment(bloodSugarLevel, n, nrOfShots);
+                DailyTreatment dailyTreatment = new DailyTreatment(bloodSugarLevel, n, nrOfShots, date);
                 String dailyID = FirebaseUtil.mDatabase.push().getKey();
                 FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid()+"/daily_treatments").child(dailyID).setValue(dailyTreatment);
+
+
 
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class).putExtra("nrOfCarbs",n.toString());
                 startActivity(intent);
