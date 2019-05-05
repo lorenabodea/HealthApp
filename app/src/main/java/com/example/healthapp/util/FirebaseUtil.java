@@ -19,6 +19,7 @@ public class FirebaseUtil {
     private static Activity caller;
     private static final int RC_SIGN_IN = 9001;
     public static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    String dbRefId = mDatabase.push().getKey();
     public static FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
 
     public static void openFbReference(String ref, final Activity callerActivity) {

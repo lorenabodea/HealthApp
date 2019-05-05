@@ -2,9 +2,12 @@ package com.example.healthapp;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,40 +19,32 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.healthapp.classes.GlycemicProfile;
 import com.example.healthapp.classes.Treatment;
+import com.example.healthapp.util.Constants;
+import com.example.healthapp.util.FirebaseUtil;
+import com.firebase.ui.auth.AuthUI;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CreateTreatmentProfileActivity extends AppCompatActivity {
 
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
-
-
     private TextInputEditText carbsPerDay;
     private TextInputEditText dayTreatmentName;
     private TextInputEditText nightTreatmentName;
-    private Spinner shot1;
-    private Spinner shot2;
-    private Spinner shot3;
-    private Spinner shot4;
-    private Spinner meal1;
-    private Spinner meal2;
-    private Spinner meal3;
-    private Spinner meal4;
     private Button saveBtn;
-
-    static Double shot1Units;
-    static Double shot2Units;
-    static Double shot3Units;
-    static Double shot4Units;
-    static Integer carbs1Grams;
-    static Integer carbs2Grams;
-    static Integer carbs3Grams;
-    static Integer carbs4Grams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,82 +52,83 @@ public class CreateTreatmentProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_treatment_profile);
 
         initComponents();
+
+        displayExistingValues();
+    }
+
+    private void displayExistingValues() {
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseUtil.currentFirebaseUser.getUid() + "/user_treatment");
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                for(DataSnapshot child: dataSnapshot.getChildren()) {
+                                    if(child.getKey().equals("carbs_per_day")) {
+                                        Long name = child.getValue(Long.class);
+                                        carbsPerDay.setText(name.toString());
+                                     } else   if(child.getKey().equals("day_treatment_name")) {
+                                        String name = child.getValue(String.class);
+                                        dayTreatmentName.setText(name);
+                                    } else {
+                                        String name = child.getValue(String.class);
+                                        nightTreatmentName.setText(name);
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            Log.w("tmz", "Failed to read value.", error.toException());
+                        }
+                    });
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+
+        });
     }
 
     private void initComponents() {
 
-//        firebaseDatabase = FirebaseDatabase.getInstance();
-//        databaseReference = firebaseDatabase.getReference().child("tratment_profiles");
-
         carbsPerDay = findViewById(R.id.create_treatment_profile_carbs_per_day_tie);
         dayTreatmentName = findViewById(R.id.create_treatment_profile_t1_name_te);
         nightTreatmentName = findViewById(R.id.create_treatment_profile_t2_name_te);
-        shot1 = findViewById(R.id.create_reatmen_profile_i1_sp);
-        shot2 = findViewById(R.id.create_reatmen_profile_i2_sp);
-        shot3 = findViewById(R.id.create_reatmen_profile_i3_sp);
-        shot4 = findViewById(R.id.create_reatmen_profile_i4_sp);
-        meal1 = findViewById(R.id.create_treatmen_profile_c1_sp);
-        meal2 = findViewById(R.id.create_treatmen_profile_c2_sp);
-        meal3 = findViewById(R.id.create_treatmen_profile_c3_sp);
-        meal4 = findViewById(R.id.create_treatmen_profile_c4_sp);
         saveBtn = findViewById(R.id.create_reatment_profile_save_btn);
-
         saveBtn.setOnClickListener(saveEvent());
-
-        List<Integer> carbsList = new ArrayList<>();
-
-        for(int i=1; i<20; i++) {
-            carbsList.add(i*5);
-        }
-
-        ArrayAdapter<Integer> carbsListAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, carbsList);
-        carbsListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        meal1.setAdapter(carbsListAdapter);
-        meal2.setAdapter(carbsListAdapter);
-        meal3.setAdapter(carbsListAdapter);
-        meal4.setAdapter(carbsListAdapter);
-
-        List<Double> shotsList = new ArrayList<>();
-        for(int i=1; i<200; i++) {
-            shotsList.add(i*0.5);
-        }
-
-        ArrayAdapter<Double> shotsListAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, shotsList);
-        shotsListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        shot1.setAdapter(shotsListAdapter);
-        shot2.setAdapter(shotsListAdapter);
-        shot3.setAdapter(shotsListAdapter);
-        shot4.setAdapter(shotsListAdapter);
-
-        meal2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = meal2.getSelectedItem().toString();
-                carbs2Grams = Integer.parseInt(string);
-                Toast.makeText(getApplicationContext(), carbs2Grams.toString(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
     }
 
     private View.OnClickListener saveEvent() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getValuesFromSpinners();
                 String dayTreatment = dayTreatmentName.getText().toString();
                 String nightTreatment = nightTreatmentName.getText().toString();
                 Integer carbs = Integer.parseInt(carbsPerDay.getText().toString());
 
-                Treatment treatment = new Treatment(carbs, carbs1Grams, carbs2Grams, carbs3Grams, carbs4Grams, shot1Units, shot2Units, shot3Units, shot4Units,dayTreatment, nightTreatment);
-
-                Toast.makeText(getApplicationContext(), treatment.toString(), Toast.LENGTH_SHORT).show();
+                FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid() + "/user_treatment").child("carbs_per_day").setValue(carbs);
+                FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid() + "/user_treatment").child("day_treatment_name").setValue(dayTreatment);
+                FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid() + "/user_treatment").child("night_treatment_name").setValue(nightTreatment);
 
             }
         };
@@ -163,127 +159,27 @@ public class CreateTreatmentProfileActivity extends AppCompatActivity {
             case R.id.menu_home:
                 intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+            case R.id.menu_graph:
+                intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_log_out:
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Log.d("Logout", "User logged out");
+                                FirebaseUtil.attachListener();
+                            }
+                        });
+                FirebaseUtil.detachListener();
+                break;
             default:
                 break;
         }
         return true;
     }
 
-    public void getValuesFromSpinners() {
-        meal1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = meal1.getSelectedItem().toString();
-                carbs1Grams = Integer.parseInt(string);
-                Toast.makeText(getApplicationContext(), carbs1Grams.toString(), Toast.LENGTH_LONG).show();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        meal2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = meal2.getSelectedItem().toString();
-                carbs2Grams = Integer.parseInt(string);
-                Toast.makeText(getApplicationContext(), carbs2Grams.toString(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        meal3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = meal3.getSelectedItem().toString();
-                carbs3Grams = Integer.parseInt(string);
-                Toast.makeText(getApplicationContext(), carbs3Grams.toString(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        meal4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = meal4.getSelectedItem().toString();
-                carbs4Grams = Integer.parseInt(string);
-                Toast.makeText(getApplicationContext(), carbs4Grams.toString(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        shot1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = shot1.getSelectedItem().toString();
-                shot1Units = Double.parseDouble(string);
-                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        shot2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = shot2.getSelectedItem().toString();
-                shot2Units = Double.parseDouble(string);
-                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        shot3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = shot3.getSelectedItem().toString();
-                shot3Units = Double.parseDouble(string);
-                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-
-        shot4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = shot4.getSelectedItem().toString();
-                shot4Units = Double.parseDouble(string);
-                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-    }
 
 }

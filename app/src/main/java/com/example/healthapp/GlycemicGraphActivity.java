@@ -56,7 +56,7 @@ public class GlycemicGraphActivity extends AppCompatActivity {
                 ArrayList<ILineDataSet> dataSets = new ArrayList<>();
                 lineDataSet = new LineDataSet(dataValues1(), "Data set 1");
                 lineDataSet.setCircleColors(colors);
-                lineDataSet.setCircleRadius(20);
+                lineDataSet.setCircleRadius(15);
                 dataSets.add(lineDataSet);
 
                 LineData data = new LineData(dataSets);

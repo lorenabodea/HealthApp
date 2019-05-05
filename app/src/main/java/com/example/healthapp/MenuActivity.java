@@ -2,10 +2,13 @@ package com.example.healthapp;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -16,15 +19,25 @@ import android.widget.Toast;
 import com.example.healthapp.classes.Menu;
 import com.example.healthapp.network.FoodParser;
 import com.example.healthapp.network.HTTPManager;
+import com.example.healthapp.util.Constants;
+import com.example.healthapp.util.FirebaseUtil;
 import com.example.healthapp.util.MenuAdapter;
 import com.example.healthapp.util.Nutrients;
 import com.example.healthapp.util.Validations;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
@@ -33,7 +46,6 @@ public class MenuActivity extends AppCompatActivity {
     TextInputEditText quantity;
     Button addBtn;
     TextView remainingCarbsTV;
-    //Nutrients nutrients = new Nutrients(0.0, 0.0);
     Double nrOfCarbsLeft = 0.0;
     Double kcalsConsumed = 0.0;
     AlertDialog.Builder builder;
@@ -74,6 +86,9 @@ public class MenuActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
 
         lv_menus.setOnItemLongClickListener(deleteEvent());
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseUtil.currentFirebaseUser.getUid() + "/" + Constants.dateToInsert);
+       //ref.child( "/nutrients").removeValue();
+
     }
 
 
@@ -163,9 +178,41 @@ public class MenuActivity extends AppCompatActivity {
 
     private void addInFirebase(Menu menu) {
         menus.add(menu);
-        String menuId = mDatabase.push().getKey();
-        mDatabase.child("menus").child(menuId).setValue(menu);
 
+        String menuId = mDatabase.push().getKey();
+        mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid() + "/" + Constants.dateToInsert + "/menus").child(menuId).setValue(menu);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseUtil.currentFirebaseUser.getUid() + "/" + Constants.dateToInsert);
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.getChildrenCount() != 0) {
+                    resetNutrients(nrOfCarbsLeft, kcalsConsumed);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+
+        });
     }
 
     private AdapterView.OnItemLongClickListener deleteEvent() {
@@ -197,16 +244,42 @@ public class MenuActivity extends AppCompatActivity {
                 kcalsConsumed -= nutrientToRemove.getCalories() / 100 * menuToRemove.getQuantity();
                 nrOfCarbsLeft += nutrientToRemove.getCarbs() / 100 * menuToRemove.getQuantity();
 
+                resetNutrients(nrOfCarbsLeft, kcalsConsumed);
+
                 if (nrOfCarbsLeft < 0) {
                     remainingCarbsTV.setText(-nrOfCarbsLeft.intValue() + " carbs exceeded and " + kcalsConsumed.intValue() + " calories consumed");
                 } else {
                     remainingCarbsTV.setText(nrOfCarbsLeft.intValue() + " carbs left and " + kcalsConsumed.intValue() + " calories consumed");
                 }
+
+
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                Query foodQuery = ref.child(FirebaseUtil.currentFirebaseUser.getUid() + "/"+ Constants.dateToInsert + "/menus").orderByChild("food").equalTo(menuToRemove.getFood());
+
+                foodQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                            appleSnapshot.getRef().removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
                 nutrientsList.remove(position);
                 menus.remove(position);
                 notifyAdapter();
             }
         };
+    }
+
+    public void resetNutrients(Double nrOfCarbsLeft, Double kcalsConsumed) {
+        mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid() + "/" + Constants.dateToInsert + "/carbs").setValue(nrOfCarbsLeft);
+        mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid() + "/" + Constants.dateToInsert + "/kcals").setValue(kcalsConsumed);
+
     }
 
     private void notifyAdapter() {
