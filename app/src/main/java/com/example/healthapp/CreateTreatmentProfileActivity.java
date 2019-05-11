@@ -140,29 +140,13 @@ public class CreateTreatmentProfileActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.app_menu, menu);
 
-        MenuItem item = menu.findItem(R.id.menu_treatment);
-        item.setVisible(false);
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Intent intent;
-
         switch (item.getItemId()){
-            case R.id.menu_profile:
-                intent = new Intent(getApplicationContext(), CreateProfileActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.menu_home:
-                intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            case R.id.menu_graph:
-                intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class);
-                startActivity(intent);
-                break;
             case R.id.menu_log_out:
                 AuthUI.getInstance()
                         .signOut(this)

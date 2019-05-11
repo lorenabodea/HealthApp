@@ -1,11 +1,24 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="buttonStyle">@style/button_background</item>-->
+    </style>
+    <!--<style name="button_background" parent="android:Widget.Button">-->
+        <!--<item name="android:background">#9999ff</item>-->
+        <!--<item name="android:height">40dp</item>-->
+        <!--<item name="android:width">80dp</item>-->
+        <!--<item name="android:fontFamily">bold</item>-->
+        <!--<item name="android:textStyle">bold</item>-->
+        <!--<item name="android:buttonCornerRadius">100dp</item>-->
+    <!--</style>-->
+
+    <style name="input_Style" parent="android:Widget.EditText">
+
     </style>
 
 </resources>

@@ -2,8 +2,11 @@ package com.example.healthapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,10 +17,18 @@ import android.widget.Toast;
 
 import com.example.healthapp.classes.User;
 import com.example.healthapp.util.Constants;
+import com.example.healthapp.util.FirebaseUtil;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -42,6 +53,8 @@ public class CreateProfileActivity extends AppCompatActivity {
         initComponents();
         btnSave = findViewById(R.id.create_profile_save_btn);
         btnSave.setOnClickListener(saveEvent());
+
+        displayExistingValues();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -49,12 +62,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.app_menu, menu);
 
-        MenuItem item = menu.findItem(R.id.menu_profile);
-        item.setVisible(false);
-
         FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
-        Toast.makeText(getApplicationContext(), currentFirebaseUser.getUid(), Toast.LENGTH_LONG).show();
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -100,7 +108,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                 });
                 User user = new User(firstName, lastName, birthDate, w, h, gender);
                 FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
-                user.setUserID(currentFirebaseUser.toString());
+                user.setUserID(currentFirebaseUser.getDisplayName());
                 String userId = mDatabase.push().getKey();
                 mDatabase.child(currentFirebaseUser.getUid()+"/add_activity").child(userId).setValue(user);
 
@@ -109,19 +117,85 @@ public class CreateProfileActivity extends AppCompatActivity {
         };
     }
 
+    private void displayExistingValues() {
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseUtil.currentFirebaseUser.getUid() + "/add_activity");
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.getChildrenCount()>0) {
+                            for(DataSnapshot child: dataSnapshot.getChildren()) {
+                              // User user = child.getValue(User.class);
+                               // Toast.makeText(getApplicationContext(), user.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+//                        for(DataSnapshot child: dataSnapshot.getChildren()) {
+//                            if(child.getKey().equals("carbs_per_day")) {
+//                                Long name = child.getValue(Long.class);
+//                                carbsPerDay.setText(name.toString());
+//                            } else   if(child.getKey().equals("day_treatment_name")) {
+//                                String name = child.getValue(String.class);
+//                                dayTreatmentName.setText(name);
+//                            } else {
+//                                String name = child.getValue(String.class);
+//                                nightTreatmentName.setText(name);
+//                            }
+//                        }
+
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Log.w("tmz", "Failed to read value.", error.toException());
+                    }
+                });
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+
+        });
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Intent intent;
-
         switch (item.getItemId()){
-            case R.id.menu_home:
-                intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+            case R.id.menu_log_out:
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Log.d("Logout", "User logged out");
+                                FirebaseUtil.attachListener();
+                            }
+                        });
+                FirebaseUtil.detachListener();
                 break;
-            case R.id.menu_treatment:
-                intent = new Intent(getApplicationContext(), CreateTreatmentProfileActivity.class);
-                startActivity(intent);
             default:
                 break;
         }

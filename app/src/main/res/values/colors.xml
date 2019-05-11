@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#6633cc</color>
+    <color name="colorPrimaryDark">#666699</color>
     <color name="colorAccent">#D81B60</color>
     <color name="red">#FF0000</color>
     <color name="green">#00FF00</color>
     <color name="yellow">#ffdb00</color>
+    <color name="purple">#6666ff</color>
+    <color name="purple_card">#9966cc</color>
+    <color name="greenish">#66cccc</color>
+    <color name="blueish">#0099cc</color>
+    <color name="blackish">#000000</color>
+    <color name="purpleish">#663366</color>
+    <color name="lightblue">#3399cc</color>
 </resources>

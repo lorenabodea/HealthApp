@@ -41,7 +41,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/mybutton"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/create_treatment_profile_t1_name_tl"

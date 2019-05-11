@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,11 +32,11 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button addDailyTreatment;
-    Button glycemicProfile;
-    TextView text;
+     TextView text;
      Long carbsPerDay ;
      Integer kcalsPerDay;
+     ImageView addGlycemicValue;
+     ImageView addDailyTreatment;
 
 
     @Override
@@ -45,13 +46,11 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUtil.openFbReference("menus", this);
 
-        addDailyTreatment = findViewById(R.id.main_daily_treatment_btn);
-        addDailyTreatment.setOnClickListener(addDailyTreatmentOnclick());
-        glycemicProfile = findViewById(R.id.main_glycemic_profile_btn);
-        glycemicProfile.setOnClickListener(glycemicProfileOnClick());
-
-        text = findViewById(R.id.main_text);
-        setDailyNutrients();
+        addGlycemicValue = findViewById(R.id.main_add_glycemic_value);
+        addDailyTreatment = findViewById(R.id.main_add_daily_treatment);
+//
+//        text = findViewById(R.id.main_text);
+//        setDailyNutrients();
     }
 
     private void setDailyNutrients() {
@@ -166,58 +165,18 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUtil.attachListener();
     }
 
-
-
-    private View.OnClickListener glycemicProfileOnClick() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GlycemicProfileActivity.class);
-                startActivity(intent);
-            }
-        };
-    }
-
-    private View.OnClickListener addDailyTreatmentOnclick() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DailyTreatmentActivity.class);
-                startActivity(intent);
-            }
-        };
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.app_menu, menu);
 
-        MenuItem item = menu.findItem(R.id.menu_home);
-        item.setVisible(false);
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        Intent intent;
-
         switch (item.getItemId()){
-            case R.id.menu_profile:
-                intent = new Intent(getApplicationContext(), CreateProfileActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.menu_treatment:
-                intent = new Intent(getApplicationContext(), CreateTreatmentProfileActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.menu_graph:
-                intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class);
-                startActivity(intent);
-                break;
             case R.id.menu_log_out:
                 AuthUI.getInstance()
                         .signOut(this)
@@ -233,5 +192,30 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    public void go_to_glycemic_profile(View view) {
+        Intent intent = new Intent(getApplicationContext(), GlycemicProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void go_to_daily_treatment(View view) {
+        Intent intent = new Intent(getApplicationContext(), DailyTreatmentActivity.class);
+        startActivity(intent);
+    }
+
+    public void go_to_profile(View view) {
+        Intent intent = new Intent(getApplicationContext(), CreateProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void go_to_treatment_profile(View view) {
+        Intent intent = new Intent(getApplicationContext(), CreateTreatmentProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void go_to_graphs(View view) {
+        Intent intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class);
+        startActivity(intent);
     }
 }
