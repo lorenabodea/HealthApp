@@ -3,6 +3,7 @@ package com.example.healthapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.healthapp.classes.DailyTreatment;
 import com.example.healthapp.classes.GlycemicProfile;
@@ -27,11 +28,17 @@ public class GlycemicGraphActivity extends AppCompatActivity {
     final List<GlycemicProfile> dailys = new ArrayList<GlycemicProfile>();
      LineDataSet lineDataSet = null;
     ArrayList<Integer> colors = new ArrayList<Integer>();
+    String optionIsBeforeMeal;
+    String optionTimeOfMeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_glycemic_graph);
+
+        optionIsBeforeMeal = getIntent().getStringExtra("optionIsBeforeMeal");
+        optionTimeOfMeal = getIntent().getStringExtra("optionTimeOfMeal");
+        Toast.makeText(getApplicationContext(), optionTimeOfMeal, Toast.LENGTH_LONG).show();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -44,8 +51,6 @@ public class GlycemicGraphActivity extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     GlycemicProfile glycemicProfile = postSnapshot.getValue(GlycemicProfile.class);
                     dailys.add(glycemicProfile);
@@ -80,16 +85,68 @@ public class GlycemicGraphActivity extends AppCompatActivity {
         ArrayList<Entry> dataValues = new ArrayList<>();
         for(int i=0; i<dailys.size(); i++) {
             Entry entry = new Entry(i, dailys.get(i).getBloodSugarLevel());
-            dataValues.add(entry);
+            //no preference selected
+            if (optionIsBeforeMeal.equalsIgnoreCase("none") && optionTimeOfMeal.equalsIgnoreCase("none")) {
+                dataValues.add(entry);
+                //no time of meal selected
+            } else if (optionTimeOfMeal.equalsIgnoreCase("none") && optionIsBeforeMeal.equalsIgnoreCase("Before meal") &&
+                    dailys.get(i).isBeforeMeal()) {
+                dataValues.add(entry);
+            } else if (optionTimeOfMeal.equalsIgnoreCase("none") && optionIsBeforeMeal.equalsIgnoreCase("After meal") &&
+                    !dailys.get(i).isBeforeMeal()) {
+                dataValues.add(entry);
+                //no isBefore meal selected
+            } else if (optionIsBeforeMeal.equalsIgnoreCase("none") && optionTimeOfMeal.equalsIgnoreCase("Breakfast") &&
+                    dailys.get(i).getTimeofTheDay().equalsIgnoreCase("breakfast")) {
+                dataValues.add(entry);
+            } else if (optionIsBeforeMeal.equalsIgnoreCase("none") && optionTimeOfMeal.equalsIgnoreCase("Lunch") &&
+                    dailys.get(i).getTimeofTheDay().equalsIgnoreCase("Lunch")) {
+                dataValues.add(entry);
+            } else if (optionIsBeforeMeal.equalsIgnoreCase("none") && optionTimeOfMeal.equalsIgnoreCase("Dinner") &&
+                    dailys.get(i).getTimeofTheDay().equalsIgnoreCase("Dinner")) {
+                dataValues.add(entry);
+                //Before meal selected and breakfast
+            } else if (optionIsBeforeMeal.equalsIgnoreCase("Before meal") && dailys.get(i).isBeforeMeal() &&
+                    optionTimeOfMeal.equalsIgnoreCase("Breakfast") &&
+                    dailys.get(i).getTimeofTheDay().equalsIgnoreCase("breakfast")) {
+                dataValues.add(entry);
+                //before meal lunch
+            } else if (optionIsBeforeMeal.equalsIgnoreCase("Before meal") && dailys.get(i).isBeforeMeal() &&
+                    optionTimeOfMeal.equalsIgnoreCase("lunch") &&
+                    dailys.get(i).getTimeofTheDay().equalsIgnoreCase("lunch")) {
+                dataValues.add(entry);
+                //before meal dinner
+            }else if (optionIsBeforeMeal.equalsIgnoreCase("Before meal") && dailys.get(i).isBeforeMeal() &&
+                    optionTimeOfMeal.equalsIgnoreCase("dinner") &&
+                    dailys.get(i).getTimeofTheDay().equalsIgnoreCase("dinner")) {
+                dataValues.add(entry);
+                //after meal breakfast
+            } else if (optionIsBeforeMeal.equalsIgnoreCase("After meal") && !dailys.get(i).isBeforeMeal() &&
+                    optionTimeOfMeal.equalsIgnoreCase("Breakfast") &&
+                    dailys.get(i).getTimeofTheDay().equalsIgnoreCase("breakfast")) {
+                dataValues.add(entry);
+                //after meal lunch
+            } else if (optionIsBeforeMeal.equalsIgnoreCase("After meal") && !dailys.get(i).isBeforeMeal() &&
+                    optionTimeOfMeal.equalsIgnoreCase("lunch") &&
+                    dailys.get(i).getTimeofTheDay().equalsIgnoreCase("lunch")) {
+                dataValues.add(entry);
+                //after meal dinner
+            }else if (optionIsBeforeMeal.equalsIgnoreCase("After meal") && !dailys.get(i).isBeforeMeal() &&
+                    optionTimeOfMeal.equalsIgnoreCase("dinner") &&
+                    dailys.get(i).getTimeofTheDay().equalsIgnoreCase("dinner")) {
+                dataValues.add(entry);
+            }
+        }
 
-            if(dailys.get(i).getBloodSugarLevel() < 70) {
+        for(int i=0; i<dataValues.size(); i++) {
+
+            if(dataValues.get(i).getY()<70) {
                 colors.add(getResources().getColor(R.color.red));
-            } else if (dailys.get(i).getBloodSugarLevel() >= 70 &&  dailys.get(i).getBloodSugarLevel() < 180) {
+            } else if (dataValues.get(i).getY() >= 70 &&  dataValues.get(i).getY() < 180) {
                 colors.add(getResources().getColor(R.color.green));
             } else {
                 colors.add(getResources().getColor(R.color.yellow));
             }
-
         }
         return dataValues;
     }

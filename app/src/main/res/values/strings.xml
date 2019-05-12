@@ -62,4 +62,18 @@
     <string name="main_profile">General profile</string>
     <string name="main_glycemic_graph">Graapgh with glycemic values</string>
     <string name="main_treatment_profile">Custom treatment</string>
+    <string name="graph_options_title" >Choose options for graph</string>
+    <string name="graph_option_beforeAfterMeal">Values before/after meals</string>
+    <string name="graph_option_timeOfTheDay">Time of meal</string>
+    <string-array name="isBeforeMealList">
+        <item>None</item>
+        <item>Before meal</item>
+        <item>After meal</item>
+    </string-array>
+    <string-array name="timeOfMeal">
+        <item>None</item>
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+    </string-array>
 </resources>

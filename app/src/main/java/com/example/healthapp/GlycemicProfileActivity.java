@@ -37,7 +37,6 @@ public class GlycemicProfileActivity extends AppCompatActivity {
     Spinner spinner;
     static String timeOfTheDay;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,8 +130,10 @@ public class GlycemicProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Integer bloodLevel = Integer.parseInt(bloodsugarLevelTie.getText().toString());
-                GlycemicProfile glycemicProfile = new GlycemicProfile(bloodLevel);
+                String meal = spinner.getSelectedItem().toString();
 
+                GlycemicProfile glycemicProfile = new GlycemicProfile(meal, beforeMeal, bloodLevel);
+                Toast.makeText(getApplicationContext(), glycemicProfile.toString(), Toast.LENGTH_LONG).show();
                 String id = FirebaseUtil.mDatabase.push().getKey();
                 FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid()+"/glycemic_profile").child(id).setValue(glycemicProfile);
 

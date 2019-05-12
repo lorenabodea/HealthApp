@@ -1,18 +1,22 @@
 package com.example.healthapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -215,7 +219,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void go_to_graphs(View view) {
-        Intent intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class);
+//        startActivity(intent);
+
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.graph_options_dialog_spinner, null);
+        mBuilder.setTitle(R.string.graph_options_title);
+        final Spinner isBeforeMealSpinner = mView.findViewById(R.id.graph_options_isBeforeMeal_spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.isBeforeMealList));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        isBeforeMealSpinner.setAdapter(adapter);
+
+        final Spinner timeOfMealSpinner = mView.findViewById(R.id.graph_options_timeOfTheDay_spinner);
+        ArrayAdapter<String> adapterMeal = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.timeOfMeal));
+        adapterMeal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeOfMealSpinner.setAdapter(adapterMeal);
+
+        mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String optionIsBeforeMeal = isBeforeMealSpinner.getSelectedItem().toString();
+                String optionTimeOfMeal = timeOfMealSpinner.getSelectedItem().toString();
+
+//                Intent intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class).putExtra("optionIsBeforeMeal",optionIsBeforeMeal);
+//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("optionIsBeforeMeal",optionIsBeforeMeal);
+                extras.putString("optionTimeOfMeal",optionTimeOfMeal);
+                intent.putExtras(extras);
+                startActivity(intent);
+            }
+        });
+
+        mBuilder.setView(mView);
+        mBuilder.create().show();
+
     }
 }
