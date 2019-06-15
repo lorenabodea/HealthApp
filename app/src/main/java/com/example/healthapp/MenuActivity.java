@@ -98,6 +98,7 @@ public class MenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (isValid()) {
                     final String foodName = typeFood.getText().toString();
+
                     final Integer quant = Integer.parseInt(quantity.getText().toString());
                     String URL;
                     String[] splited = foodName.split("\\s+");
@@ -145,7 +146,7 @@ public class MenuActivity extends AppCompatActivity {
                                                 });
 
                                         AlertDialog alert = builder.create();
-                                        alert.setTitle("AlertDialogExample");
+                                        alert.setTitle("Exceeded carbs limit warning");
                                         alert.show();
                                     } else {
                                         addInFirebase(menu);

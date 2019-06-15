@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GlycemicGraphActivity"></activity>
+        <activity android:name=".JurnalActivity"></activity>
+        <activity android:name=".GlycemicGraphActivity" />
         <activity android:name=".GlycemicProfileActivity" />
         <activity android:name=".DailyTreatmentActivity" />
         <activity android:name=".CreateTreatmentProfileActivity" />

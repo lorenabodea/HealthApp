@@ -38,12 +38,9 @@ public class GlycemicGraphActivity extends AppCompatActivity {
 
         optionIsBeforeMeal = getIntent().getStringExtra("optionIsBeforeMeal");
         optionTimeOfMeal = getIntent().getStringExtra("optionTimeOfMeal");
-        Toast.makeText(getApplicationContext(), optionTimeOfMeal, Toast.LENGTH_LONG).show();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-
         DatabaseReference myRef = database.getReference(FirebaseUtil.currentFirebaseUser.getUid()+"/glycemic_profile");
-
        getValues(myRef);
     }
 

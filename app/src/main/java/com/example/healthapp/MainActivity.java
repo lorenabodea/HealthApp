@@ -192,6 +192,9 @@ public class MainActivity extends AppCompatActivity {
                         });
                 FirebaseUtil.detachListener();
                 break;
+            case R.id.menu_treatment_profile:
+                Intent intent = new Intent(getApplicationContext(), CreateTreatmentProfileActivity.class);
+                startActivity(intent);
             default:
                 break;
         }
@@ -214,14 +217,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void go_to_treatment_profile(View view) {
-        Intent intent = new Intent(getApplicationContext(), CreateTreatmentProfileActivity.class);
-        startActivity(intent);
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.graph_options_dialog_spinner, null);
+        mBuilder.setTitle(R.string.graph_options_title);
+
+        final Spinner timeOfMealSpinner = mView.findViewById(R.id.graph_options_timeOfTheDay_spinner);
+        ArrayAdapter<String> adapterMeal = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.timeOfMeal));
+        adapterMeal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeOfMealSpinner.setAdapter(adapterMeal);
+
+        mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String optionTimeOfMeal = timeOfMealSpinner.getSelectedItem().toString();
+                Intent intent = new Intent(getApplicationContext(), JurnalActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("optionTimeOfMeal",optionTimeOfMeal);
+                intent.putExtras(extras);
+                startActivity(intent);
+            }
+        });
+
+        mBuilder.setView(mView);
+        mBuilder.create().show();
     }
 
     public void go_to_graphs(View view) {
-//        Intent intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class);
-//        startActivity(intent);
-
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.graph_options_dialog_spinner, null);
         mBuilder.setTitle(R.string.graph_options_title);

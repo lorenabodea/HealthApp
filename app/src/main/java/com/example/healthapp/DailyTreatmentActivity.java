@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.healthapp.classes.DailyTreatment;
 import com.example.healthapp.classes.GlycemicProfile;
+import com.example.healthapp.util.Constants;
 import com.example.healthapp.util.FirebaseUtil;
 
 import java.util.ArrayList;
@@ -116,13 +117,14 @@ public class DailyTreatmentActivity extends AppCompatActivity {
                 Integer bloodSugarLevel = Integer.parseInt(bloodsugarLevelTie.getText().toString());
                 double nrOfShots = Double.parseDouble(nroffUnitsTie.getText().toString());
                 long date = new Date().getTime();
+                String timeOfTheDay = spinner.getSelectedItem().toString();
 
-                DailyTreatment dailyTreatment = new DailyTreatment(bloodSugarLevel, n, nrOfShots, date);
+                DailyTreatment dailyTreatment = new DailyTreatment(bloodSugarLevel, n, nrOfShots, date, timeOfTheDay);
                 String dailyID = FirebaseUtil.mDatabase.push().getKey();
                 FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid()+"/daily_treatments").child(dailyID).setValue(dailyTreatment);
 
 
-                GlycemicProfile glycemicProfile = new GlycemicProfile(bloodSugarLevel);
+                GlycemicProfile glycemicProfile = new GlycemicProfile(timeOfTheDay, true, bloodSugarLevel);
                 String id = FirebaseUtil.mDatabase.push().getKey();
                 FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid()+"/glycemic_profile").child(id).setValue(glycemicProfile);
 

@@ -110,7 +110,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                 FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
                 user.setUserID(currentFirebaseUser.getDisplayName());
                 String userId = mDatabase.push().getKey();
-                mDatabase.child(currentFirebaseUser.getUid()+"/add_activity").child(userId).setValue(user);
+                mDatabase.child(currentFirebaseUser.getUid()+"/profile").child(userId).setValue(user);
 
 
             }
@@ -118,7 +118,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     }
 
     private void displayExistingValues() {
-        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseUtil.currentFirebaseUser.getUid() + "/add_activity");
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseUtil.currentFirebaseUser.getUid() + "/profile");
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
