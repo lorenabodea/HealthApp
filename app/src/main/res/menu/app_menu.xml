@@ -6,7 +6,10 @@
         android:title="@string/menu_log_out" />
     <item
         android:id="@+id/menu_treatment_profile"
-        android:title="@string/menu_log_out" />
+        android:title="@string/menu_treatment_profile" />
+    <item
+        android:id="@+id/menu_general_profile"
+        android:title="@string/menu_general_profile" />
 
 
 

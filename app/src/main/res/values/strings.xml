@@ -60,13 +60,15 @@
     <string name="menu_log_out">Log out</string>
     <string name="glycemiy_graph_title">Glycemic graph</string>
     <string name="main_profile">General profile</string>
-    <string name="main_glycemic_graph">Graapgh with glycemic values</string>
+    <string name="main_glycemic_graph">Graph with glycemic values</string>
     <string name="main_treatment_profile">Custom treatment</string>
     <string name="graph_options_title">Choose options for graph</string>
     <string name="graph_option_beforeAfterMeal">Values before/after meals</string>
     <string name="graph_option_timeOfTheDay">Time of meal</string>
     <string name="jural_option_timeOftheDay">Time of the day</string>
     <string name="main_jurnal">Jurnal</string>
+    <string name="menu_treatment_profile">Treatment profile</string>
+    <string name="menu_general_profile">General profile</string>
     <string-array name="isBeforeMealList">
         <item>None</item>
         <item>Before meal</item>

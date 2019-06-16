@@ -74,10 +74,7 @@ public class GlycemicGraphActivity extends AppCompatActivity {
 
     }
 
-
     private ArrayList<Entry> dataValues1()   {
-
-
 
         ArrayList<Entry> dataValues = new ArrayList<>();
         for(int i=0; i<dailys.size(); i++) {

@@ -66,9 +66,9 @@ public class CreateTreatmentProfileActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                                 for(DataSnapshot child: dataSnapshot.getChildren()) {
                                     if(child.getKey().equals("carbs_per_day")) {
-                                        Long name = child.getValue(Long.class);
-                                        carbsPerDay.setText(name.toString());
-                                     } else   if(child.getKey().equals("day_treatment_name")) {
+                                        Long nrOfCarbs = child.getValue(Long.class);
+                                        carbsPerDay.setText(nrOfCarbs.toString());
+                                     } else if(child.getKey().equals("day_treatment_name")) {
                                         String name = child.getValue(String.class);
                                         dayTreatmentName.setText(name);
                                     } else {

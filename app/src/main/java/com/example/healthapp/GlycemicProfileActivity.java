@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -23,6 +24,8 @@ import com.example.healthapp.classes.GlycemicProfile;
 import com.example.healthapp.util.FirebaseUtil;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.hsalf.smilerating.BaseRating;
+import com.hsalf.smilerating.SmileRating;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,8 @@ public class GlycemicProfileActivity extends AppCompatActivity {
     Button save;
     Spinner spinner;
     static String timeOfTheDay;
+    SmileRating smileRating;
+    private static final String TAG = "GlycemicProfileActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,7 @@ public class GlycemicProfileActivity extends AppCompatActivity {
         rg = findViewById(R.id.glycemic_profile_rg);
         beforeMealBtn = findViewById(R.id.glycemic_profile_before_radioBtn);
         beforeMealBtn.setChecked(true);
+       // smileRating = (SmileRating) findViewById(R.id.smile_rating);
         save = findViewById(R.id.glycemic_profile_save_btn);
 
         save.setOnClickListener(saveEvent());
@@ -78,6 +84,39 @@ public class GlycemicProfileActivity extends AppCompatActivity {
 
             }
         });
+
+//        smileRating.setOnSmileySelectionListener(new SmileRating.OnSmileySelectionListener() {
+//            @Override
+//            public void onSmileySelected(@BaseRating.Smiley int smiley, boolean reselected) {
+//                // reselected is false when user selects different smiley that previously selected one
+//                // true when the same smiley is selected.
+//                // Except if it first time, then the value will be false.
+//                switch (smiley) {
+//                    case SmileRating.BAD:
+//                        Log.i(TAG, "Bad");
+//                        break;
+//                    case SmileRating.GOOD:
+//                        Log.i(TAG, "Good");
+//                        break;
+//                    case SmileRating.GREAT:
+//                        Log.i(TAG, "Great");
+//                        break;
+//                    case SmileRating.OKAY:
+//                        Log.i(TAG, "Okay");
+//                        break;
+//                    case SmileRating.TERRIBLE:
+//                        Log.i(TAG, "Terrible");
+//                        break;
+//                }
+//            }
+//        });
+//
+//        smileRating.setNameForSmile(BaseRating.TERRIBLE, "Angry");
+//        smileRating.setNameForSmile(BaseRating.BAD, "Sad");
+//        smileRating.setNameForSmile(BaseRating.GOOD, "Normal");
+//        smileRating.setNameForSmile(BaseRating.GREAT, "Happy");
+//        smileRating.setNameForSmile(BaseRating.OKAY, "No feelings");
+
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -131,9 +170,10 @@ public class GlycemicProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Integer bloodLevel = Integer.parseInt(bloodsugarLevelTie.getText().toString());
                 String meal = spinner.getSelectedItem().toString();
+//                int level = smileRating.getRating();
+//                Toast.makeText(getApplicationContext(), level, Toast.LENGTH_LONG).show();
 
                 GlycemicProfile glycemicProfile = new GlycemicProfile(meal, beforeMeal, bloodLevel);
-                Toast.makeText(getApplicationContext(), glycemicProfile.toString(), Toast.LENGTH_LONG).show();
                 String id = FirebaseUtil.mDatabase.push().getKey();
                 FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid()+"/glycemic_profile").child(id).setValue(glycemicProfile);
 
