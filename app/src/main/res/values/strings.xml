@@ -67,6 +67,11 @@
     <string name="graph_option_timeOfTheDay">Time of meal</string>
     <string name="jural_option_timeOftheDay">Time of the day</string>
     <string name="main_jurnal">Jurnal</string>
+    <string name="menu_treatment_profile">Treatment profile</string>
+    <string name="menu_general_profile">General profile</string>
+    <string name="menu_language">Language</string>
+    <string name="menu_guide">Guide</string>
+    <string name="menu_terms">Terms and conditions</string>
     <string-array name="isBeforeMealList">
         <item>None</item>
         <item>Before meal</item>

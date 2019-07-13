@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             case R.id.menu_log_out:
                 AuthUI.getInstance()
@@ -193,9 +194,11 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUtil.detachListener();
                 break;
             case R.id.menu_treatment_profile:
-                Intent intent = new Intent(getApplicationContext(), CreateTreatmentProfileActivity.class);
+                intent = new Intent(getApplicationContext(), CreateTreatmentProfileActivity.class);
                 startActivity(intent);
-            default:
+            case R.id.menu_general_profile:
+                intent = new Intent(getApplicationContext(), CreateProfileActivity.class);
+                startActivity(intent);
                 break;
         }
         return true;
@@ -211,12 +214,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void go_to_profile(View view) {
-        Intent intent = new Intent(getApplicationContext(), CreateProfileActivity.class);
-        startActivity(intent);
-    }
-
-    public void go_to_treatment_profile(View view) {
+    public void go_to_jurnal(View view) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.graph_options_dialog_spinner, null);
         mBuilder.setTitle(R.string.graph_options_title);
