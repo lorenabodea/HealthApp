@@ -57,27 +57,9 @@ public class GlycemicProfileActivity extends AppCompatActivity {
 
         spinner = findViewById(R.id.create_treatment_profile_spinner);
 
-        final List<String> timeOfTheMeal = new ArrayList<>();
-        timeOfTheMeal.add("Breakfast");
-        timeOfTheMeal.add("Lunch");
-        timeOfTheMeal.add("Dinner");
-
-        ArrayAdapter<String> mealsAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, timeOfTheMeal);
+        ArrayAdapter<String> mealsAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.timeOfMeal));
         mealsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(mealsAdapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                timeOfTheDay = spinner.getSelectedItem().toString();
-                Toast.makeText(getApplicationContext(), timeOfTheDay, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -97,12 +79,12 @@ public class GlycemicProfileActivity extends AppCompatActivity {
                 Integer bloodSugarLevel = Integer.parseInt(bloodsugarLevelTie.getText().toString());
                 if(bloodSugarLevel>180){
                     TextView tv = findViewById(R.id.glycemic_profile_tv_important);
-                    tv.setText("Blood sugar level is too high!");
+                    tv.setText(R.string.hyperglycemic);
                     tv.setVisibility(View.VISIBLE);
                 }
                 if(bloodSugarLevel<70){
                     TextView tv = findViewById(R.id.glycemic_profile_tv_important);
-                    tv.setText("Blood sugar level is too low!");
+                    tv.setText(R.string.hipoglicemic);
                     tv.setVisibility(View.VISIBLE);
                 }
                 if(bloodSugarLevel>70&&bloodSugarLevel<180){
@@ -133,7 +115,6 @@ public class GlycemicProfileActivity extends AppCompatActivity {
                 String meal = spinner.getSelectedItem().toString();
 
                 GlycemicProfile glycemicProfile = new GlycemicProfile(meal, beforeMeal, bloodLevel);
-                Toast.makeText(getApplicationContext(), glycemicProfile.toString(), Toast.LENGTH_LONG).show();
                 String id = FirebaseUtil.mDatabase.push().getKey();
                 FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid()+"/glycemic_profile").child(id).setValue(glycemicProfile);
 

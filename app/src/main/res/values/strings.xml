@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Health App</string>
+    <string name="app_name">Pocket doc</string>
     <string name="menu_home">Home</string>
     <string name="menu_profile">My profile</string>
     <string name="create_profile_title">Profile</string>
@@ -60,7 +60,7 @@
     <string name="menu_log_out">Log out</string>
     <string name="glycemiy_graph_title">Glycemic graph</string>
     <string name="main_profile">General profile</string>
-    <string name="main_glycemic_graph">Graapgh with glycemic values</string>
+    <string name="main_glycemic_graph">Graph with glycemic values</string>
     <string name="main_treatment_profile">Custom treatment</string>
     <string name="graph_options_title">Choose options for graph</string>
     <string name="graph_option_beforeAfterMeal">Values before/after meals</string>
@@ -72,6 +72,22 @@
     <string name="menu_language">Language</string>
     <string name="menu_guide">Guide</string>
     <string name="menu_terms">Terms and conditions</string>
+    <string name="dialog_language_title">Choose language</string>
+    <string name="main_text_1">Hello! For today, you have</string>
+    <string name="main_text_2">carbohydrates left and you consumed</string>
+    <string name="main_text_3">calories</string>
+    <string name="menu_text2_1">Hello! For today, you have exceeded the carbohydrates number with</string>
+    <string name="menu_text2_2">grams and you consumed</string>
+    <string name="menu_finish">Done</string>
+    <string name="hyperglycemic">Blood sugar level is too high!</string>
+    <string name="hipoglicemic">Blood sugar level is too low!</string>
+    <string name="noFoodError1">No food found with the name:</string>
+    <string name="noFoodError2">was found</string>
+    <string name="carbsExceeded1">carbs exceeded and</string>
+    <string name="carbsExceeded2">calories consumed</string>
+    <string name="carbsExceeded3">carbs left and</string>
+    <string name="menuDialogTitle">Exceeded carbs limit warning</string>
+    <string name="terms_and_conditions">Prezenta aplicație nu reprezintă indicația directa a unui medic individualizata pe situația fiecărui pacient. In cazul in care exista aspecte deosebite care pot duce la complicații, va rugam sa apelați la un medic specializat. Sfaturile acordate se bazează pe experiența medicilor specializați pe o gama variata de subiecți, dar sunt strict orientative. Pentru un tratament individualizat, propunem suplimentar aplicației, solicitarea unei păreri specializate din partea medicilor.</string>
     <string-array name="isBeforeMealList">
         <item>None</item>
         <item>Before meal</item>

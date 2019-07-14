@@ -2,8 +2,9 @@ package com.example.healthapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -18,21 +19,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.healthapp.util.Constants;
 import com.example.healthapp.util.FirebaseUtil;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,9 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
         addGlycemicValue = findViewById(R.id.main_add_glycemic_value);
         addDailyTreatment = findViewById(R.id.main_add_daily_treatment);
-//
-//        text = findViewById(R.id.main_text);
-//        setDailyNutrients();
+
+        text = findViewById(R.id.main_text);
+        text.setVisibility(View.INVISIBLE);
+        setDailyNutrients();
     }
 
     private void setDailyNutrients() {
@@ -65,21 +66,23 @@ public class MainActivity extends AppCompatActivity {
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        boolean found = false;
                         for(DataSnapshot child: dataSnapshot.getChildren()) {
                             if(child.getKey().equals("carbs")) {
                                 carbsPerDay = child.getValue(Long.class);
-                                found = true;
                             } else if(child.getKey().equals("kcals")){
                                 kcalsPerDay = child.getValue(Integer.class);
                             }
                         }
+                        text.setVisibility(View.VISIBLE);
+                        if(carbsPerDay >= 0) {
+                            String textToShow = getString(R.string.main_text_1)+ " " + carbsPerDay +" " + getString(R.string.main_text_2) +" " + kcalsPerDay+ " " +getString(R.string.main_text_3) ;
+                            text.setText(textToShow);
 
-                        text.setText("Hello, User! For today, you have "+ carbsPerDay + " left and you consumed "+ kcalsPerDay +" calories");
-
-                        if(found == false) {
-                            setNutrientsFromProfile();
+                        } else {
+                            String textToShow = getString(R.string.menu_text2_1)+ " " + -carbsPerDay +" " + getString(R.string.menu_text2_2) +" " + kcalsPerDay+ " " +getString(R.string.main_text_3) ;
+                            text.setText(textToShow);
                         }
+
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -106,55 +109,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void setNutrientsFromProfile() {
-        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseUtil.currentFirebaseUser.getUid() + "/user_treatment");
-        ref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                ref.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot child: dataSnapshot.getChildren()) {
-                            if(child.getKey().equals("carbs_per_day")) {
-                                 carbsPerDay = child.getValue(Long.class);
-                            }
-                        }
-                        kcalsPerDay = 0;
-                        text.setText("Hello, User! For today, you have "+ carbsPerDay + " left and you consumed "+ kcalsPerDay +" calories");
-
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        Log.w("tmz", "Failed to read value.", error.toException());
-                    }
-                });
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-
-        });
     }
 
     @Override
@@ -200,8 +154,65 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(getApplicationContext(), CreateProfileActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.menu_language:
+                showChangeLanguageDialog();
+                break;
+            case R.id.menu_terms:
+                openDialogTerms();
+                break;
         }
         return true;
+    }
+
+    private void openDialogTerms() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+        builder1.setMessage(R.string.terms_and_conditions);
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    private void showChangeLanguageDialog() {
+        final String[] languages = {"English", "Romanian"};
+
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        mBuilder.setTitle(R.string.dialog_language_title);
+        mBuilder.setSingleChoiceItems(languages, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == 0) {
+                    setLocale("en");
+                    recreate();
+                } else {
+                    setLocale("ro");
+                    recreate();
+                }
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog mdialog = mBuilder.create();
+        mdialog.show();
+    }
+
+    private void setLocale(String lang) {
+       Locale locale = new Locale(lang);
+       Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getBaseContext().getResources().updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
+        editor.putString("My_lang", lang);
+        editor.apply();
     }
 
     public void go_to_glycemic_profile(View view) {
@@ -266,8 +277,6 @@ public class MainActivity extends AppCompatActivity {
                 String optionIsBeforeMeal = isBeforeMealSpinner.getSelectedItem().toString();
                 String optionTimeOfMeal = timeOfMealSpinner.getSelectedItem().toString();
 
-//                Intent intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class).putExtra("optionIsBeforeMeal",optionIsBeforeMeal);
-//                startActivity(intent);
                 Intent intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class);
                 Bundle extras = new Bundle();
                 extras.putString("optionIsBeforeMeal",optionIsBeforeMeal);

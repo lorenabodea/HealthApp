@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Doctor de buzunar</string>
+    <string name="menu_home">Acasa</string>
+    <string name="yes">Da</string>
+    <string name="treatment_profile_title">Profil tratament</string>
+    <string name="no">Nu</string>
+    <string name="menu_type_food">Introduceti aliment...</string>
+    <string name="menu_treatment_profile">Profil tratament</string>
+    <string name="menu_treatmenr">Profil tratament</string>
+    <string name="menu_terms">Termene și condiții</string>
+    <string name="menu_quantity">Cantitate</string>
+    <string name="menu_profile">Profil</string>
+    <string name="menu_log_out">Log out</string>
+    <string name="menu_language">Limba</string>
+    <string name="menu_guide">Ghid</string>
+    <string name="menu_general_profile">Profil</string>
+    <string name="menu_delete_alert_title">Ștergeți</string>
+    <string name="menu_delete_alert">Sunteți sigur că doriți să ștergeți?</string>
+    <string name="menu_create_menu_btn">Creare meniu</string>
+    <string name="menu_add">Adaugă</string>
+    <string name="main_treatment_profile">Personalizează tratament</string>
+    <string name="main_profile">Profil general</string>
+    <string name="main_jurnal">Jurnal</string>
+    <string name="main_glycemic_profile_btn">Adaugă valoare glicemică</string>
+    <string name="main_glycemic_graph">Grafic cu valorile glicemice</string>
+    <string name="main_daily_treatment">Adaugă tratament</string>
+    <string name="jural_option_timeOftheDay">Timpul zilei</string>
+    <string name="graph_options_title">Alege opțiuni pentru grafic</string>
+    <string name="graph_option_timeOfTheDay">Timpul meseu</string>
+    <string name="graph_option_beforeAfterMeal">Valorile înainte/după masă</string>
+    <string name="glycemiy_graph_title">Grafic cu glicemii</string>
+    <string name="glycemic_profile_save_btn">Salvează</string>
+    <string name="glycemic_profile_blood_sugar">Glicemie</string>
+    <string name="glycemic_profile_before_rb">Înainte de masă</string>
+    <string name="glycemic_profile_after_rb">După masă</string>
+    <string name="error_typeFood">Introduceți aliment!</string>
+    <string name="error_quantity">Introduceți cantitate!</string>
+    <string name="dialog_title">Sunteți sigur?</string>
+    <string name="dialog_text">Întrebare</string>
+    <string name="dialog_ok">Ok</string>
+    <string name="dialog_exceededCarbs_text">Ați depășit limita de carbohidrați</string>
+    <string name="dialog_exceeded_ok_text">Ok, o să aleg altceva</string>
+    <string name="dialog_cancel">Sunt conștient, o să modific tratamentul</string>
+    <string name="dailytreatment_nrofshots">Număr de unități</string>
+    <string name="dailytreatment_carbs">Număr carbohidrați</string>
+    <string name="dailytreatment_blood_sugar">Glicemie</string>
+    <string name="dailytreatment_add_menu_btn">Creare meniu</string>
+    <string name="daily_treatment_blood_sugar_level_attention">Glicemia este prea mare</string>
+    <string name="create_treatment_ptrofile_save_btn">Salvează</string>
+    <string name="create_treatment_profile_t2_name">Denumire tratament noapte</string>
+    <string name="create_treatment_profile_t1_name">Denumire tratament zi</string>
+    <string name="create_treatment_profile_shots_text">Carbohidrați pe zi</string>
+    <string name="create_treatment_profile_iis_tv">Unități pe zi</string>
+    <string name="create_treatment_profile_carbs_per_day">Carbohidrați pe zi</string>
+    <string name="create_reatmen_profile_i4_tv">Gustare</string>
+    <string name="create_reatmen_profile_i3_tv">Cină</string>
+    <string name="create_reatmen_profile_i2_tv">Prânz</string>
+    <string name="create_reatmen_profile_i1_tv">Mic dejun</string>
+    <string name="create_reatmen_profile_c4_sp">Noapte</string>
+    <string name="create_profile_weight">Greutate</string>
+    <string name="create_profile_title">Profil</string>
+    <string name="create_profile_snacks">Gustari pe zi</string>
+    <string name="create_profile_save">Salvează</string>
+    <string name="create_profile_meals">Mese pe zi</string>
+    <string name="create_profile_male">Masculin</string>
+    <string name="create_profile_lname">Nume</string>
+    <string name="create_profile_inj">Număr de injecții</string>
+    <string name="create_profile_height">Înalțime</string>
+    <string name="create_profile_gender">Gen</string>
+    <string name="create_profile_fname">Prenume</string>
+    <string name="create_profile_female">Feminin</string>
+    <string name="create_profile_date">Data naștere</string>
+    <string name="create_profile_carbs">Cabohidrați pe zi</string>
+    <string name="calcel">Anulează</string>
+    <string name="dialog_language_title">Alegeți limba</string>
+    <string name="main_text_1">Salut! pentru astăzi ai</string>
+    <string name="main_text_2">carbohidrați ramași și ai consumat</string>
+    <string name="main_text_3">calorii.</string>
+    <string name="menu_text2_1">Salut! Astăzi ai depășit numărul de carbohidrați cu </string>
+    <string name="menu_text2_2">grame și ai consumat </string>
+    <string name="menu_finish">Finalizează</string>
+    <string name="hyperglycemic">Glicemia este prea mare!</string>
+    <string name="hipoglicemic">Glicemia este prea mică!</string>
+    <string name="noFoodError1">Niciun aliment cu denumirea:</string>
+    <string name="noFoodError2">nu a fost găsit!</string>
+    <string name="carbsExceeded1">carbohidrați depașiți</string>
+    <string name="carbsExceeded2">calorii consumate</string>
+    <string name="carbsExceeded3">carbs left and</string>
+    <string name="menuDialogTitle">Atenționare depășire carbohidrați</string>
+    <string name="terms_and_conditions">Prezenta aplicație nu reprezintă indicația directa a unui medic individualizata pe situația fiecărui pacient. In cazul in care exista aspecte deosebite care pot duce la complicații, va rugam sa apelați la un medic specializat. Sfaturile acordate se bazează pe experiența medicilor specializați pe o gama variata de subiecți, dar sunt strict orientative. Pentru un tratament individualizat, propunem suplimentar aplicației, solicitarea unei păreri specializate din partea medicilor.</string>
+    <string-array name="isBeforeMealList">
+        <item>Nimic</item>
+        <item>Înainte de masă</item>
+        <item>După masă</item>
+    </string-array>
+    <string-array name="timeOfMeal">
+        <item>Nimic</item>
+        <item>Mic dejun</item>
+        <item>Prânz</item>
+        <item>Cină</item>
+    </string-array>
+
+</resources>

@@ -50,28 +50,9 @@ public class DailyTreatmentActivity extends AppCompatActivity {
 
         spinner = findViewById(R.id.dailytreatment_meal);
 
-
-        List<String> timeOfTheMeal = new ArrayList<>();
-        timeOfTheMeal.add("Breakfast");
-        timeOfTheMeal.add("Lunch");
-        timeOfTheMeal.add("Dinner");
-
-        ArrayAdapter<String> mealsAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, timeOfTheMeal);
+        ArrayAdapter<String> mealsAdapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.timeOfMeal));
         mealsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(mealsAdapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String string = spinner.getSelectedItem().toString();
-                Toast.makeText(getApplicationContext(), string, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         bloodsugarLevelTie.addTextChangedListener(new TextWatcher() {
 

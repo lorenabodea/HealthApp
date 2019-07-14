@@ -2,6 +2,7 @@ package com.example.healthapp;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -39,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -55,6 +57,7 @@ public class MenuActivity extends AppCompatActivity {
     ListView lv_menus;
     private MenuAdapter adapter;
     private DatabaseReference mDatabase;
+    Button done;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,7 @@ public class MenuActivity extends AppCompatActivity {
         addBtn = findViewById(R.id.menu_add_btn);
         addBtn.setOnClickListener(addBtnClickEvent());
         lv_menus = findViewById(R.id.menu_lv);
+        done = findViewById(R.id.menu_finish);
 
         adapter = new MenuAdapter(this, R.layout.lv_menus_row, menus, getLayoutInflater());
         lv_menus.setAdapter(adapter);
@@ -88,6 +92,13 @@ public class MenuActivity extends AppCompatActivity {
         lv_menus.setOnItemLongClickListener(deleteEvent());
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseUtil.currentFirebaseUser.getUid() + "/" + Constants.dateToInsert);
        //ref.child( "/nutrients").removeValue();
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -114,7 +125,7 @@ public class MenuActivity extends AppCompatActivity {
                         protected void onPostExecute(String s) {
                             try {
                                 if (FoodParser.fromJson(s) == null) {
-                                    typeFood.setError("No food found with the name: " + typeFood.getText().toString() + " was found");
+                                    typeFood.setError(getString(R.string.noFoodError1)+ " " + typeFood.getText().toString() + " " +getString(R.string.noFoodError2));
                                 } else {
 
                                     nrOfCarbs = FoodParser.fromJson(s).getCarbs();
@@ -140,19 +151,19 @@ public class MenuActivity extends AppCompatActivity {
                                                         addInFirebase(menu);
 
                                                         nrOfCarbsLeft -= nrOfCarbs / 100 * quant;
-                                                        remainingCarbsTV.setText(-nrOfCarbsLeft.intValue() + " carbs exceeded and " + kcalsConsumed.intValue() + " calories consumed");
+                                                        remainingCarbsTV.setText(-nrOfCarbsLeft.intValue()+ " " + getString(R.string.carbsExceeded1) + " " + kcalsConsumed.intValue() + " " +getString(R.string.carbsExceeded2));
                                                         dialog.cancel();
                                                     }
                                                 });
 
                                         AlertDialog alert = builder.create();
-                                        alert.setTitle("Exceeded carbs limit warning");
+                                        alert.setTitle(getString(R.string.menuDialogTitle));
                                         alert.show();
                                     } else {
                                         addInFirebase(menu);
 
                                         nrOfCarbsLeft -= nrOfCarbs / 100 * quant;
-                                        remainingCarbsTV.setText(nrOfCarbsLeft.intValue() + " carbs left and " + kcalsConsumed.intValue() + " calories consumed");
+                                        remainingCarbsTV.setText(nrOfCarbsLeft.intValue()+ " " + getString(R.string.carbsExceeded3)+ " " + kcalsConsumed.intValue()+ " " + getString(R.string.carbsExceeded2));
                                     }
 
                                     typeFood.getText().clear();
@@ -168,7 +179,7 @@ public class MenuActivity extends AppCompatActivity {
                     };
                     manager.execute(URL);
                 } else {
-                    Toast.makeText(getApplicationContext(), "nu e", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "nu există", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -190,6 +201,7 @@ public class MenuActivity extends AppCompatActivity {
                 if (dataSnapshot.getChildrenCount() != 0) {
                     resetNutrients(nrOfCarbsLeft, kcalsConsumed);
                 }
+
             }
 
             @Override

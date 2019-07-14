@@ -13,20 +13,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".JurnalActivity"></activity>
-        <activity android:name=".GlycemicGraphActivity" />
-        <activity android:name=".GlycemicProfileActivity" />
-        <activity android:name=".DailyTreatmentActivity" />
-        <activity android:name=".CreateTreatmentProfileActivity" />
-        <activity android:name=".CreateProfileActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".JurnalActivity" android:configChanges="keyboardHidden|orientation"></activity>
+        <activity android:name=".GlycemicGraphActivity" android:configChanges="keyboardHidden|orientation"/>
+        <activity android:name=".GlycemicProfileActivity" android:configChanges="keyboardHidden|orientation"/>
+        <activity android:name=".DailyTreatmentActivity" android:configChanges="keyboardHidden|orientation" />
+        <activity android:name=".CreateTreatmentProfileActivity" android:configChanges="keyboardHidden|orientation" />
+        <activity android:name=".CreateProfileActivity" android:configChanges="keyboardHidden|orientation" />
+        <activity android:name=".MainActivity" android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity" />
+        <activity android:name=".MenuActivity" android:configChanges="keyboardHidden|orientation" />
     </application>
 
 </manifest>
