@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -117,8 +118,30 @@ public class GlycemicProfileActivity extends AppCompatActivity {
                 GlycemicProfile glycemicProfile = new GlycemicProfile(meal, beforeMeal, bloodLevel);
                 String id = FirebaseUtil.mDatabase.push().getKey();
                 FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid()+"/glycemic_profile").child(id).setValue(glycemicProfile);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                if(bloodLevel < 70) {
+                    Toast toast = Toast.makeText(getApplicationContext(),  R.string.advice_hipo, Toast.LENGTH_LONG);
+                    View toastView = toast.getView();
+                    TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+                    toastMessage.setTextSize(25);
+                    toastMessage.setTextColor(getResources().getColor(R.color.red));
+                    toastMessage.setGravity(Gravity.CENTER);
+                    toastMessage.setCompoundDrawablePadding(16);
+                    toastView.setBackgroundColor(getResources().getColor(R.color.lightpurple));
+                    toast.show();
+                } else if(bloodLevel > 180){
+                    Toast toast = Toast.makeText(getApplicationContext(),  R.string.advice_hiper, Toast.LENGTH_LONG);
+                    View toastView = toast.getView();
+                    TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+                    toastMessage.setTextSize(25);
+                    toastMessage.setTextColor(getResources().getColor(R.color.red));
+                    toastMessage.setGravity(Gravity.CENTER);
+                    toastMessage.setCompoundDrawablePadding(16);
+                    toastView.setBackgroundColor(getResources().getColor(R.color.lightpurple));
+                    toast.show();
 
-
+                }
+                startActivity(intent);
             }
         };
     }

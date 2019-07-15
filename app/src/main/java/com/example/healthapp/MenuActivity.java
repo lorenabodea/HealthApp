@@ -191,10 +191,7 @@ public class MenuActivity extends AppCompatActivity {
     private void addInFirebase(Menu menu) {
         menus.add(menu);
 
-        String menuId = mDatabase.push().getKey();
-        mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid() + "/" + Constants.dateToInsert + "/menus").child(menuId).setValue(menu);
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseUtil.currentFirebaseUser.getUid() + "/" + Constants.dateToInsert);
+       final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseUtil.currentFirebaseUser.getUid() + "/" + Constants.dateToInsert);
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -223,9 +220,11 @@ public class MenuActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-
-
         });
+
+        String menuId = mDatabase.push().getKey();
+        mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid() + "/" + Constants.dateToInsert + "/menus").child(menuId).setValue(menu);
+
     }
 
     private AdapterView.OnItemLongClickListener deleteEvent() {

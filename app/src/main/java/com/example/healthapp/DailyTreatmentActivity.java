@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -60,12 +61,12 @@ public class DailyTreatmentActivity extends AppCompatActivity {
                 Integer bloodSugarLevel = Integer.parseInt(bloodsugarLevelTie.getText().toString());
                 if(bloodSugarLevel>180){
                     TextView tv = findViewById(R.id.daily_treatment_blood_sugar_level_attention);
-                    tv.setText("Blood sugar level is too high!");
+                    tv.setText(R.string.hyperglycemic);
                     findViewById(R.id.daily_treatment_blood_sugar_level_attention).setVisibility(View.VISIBLE);
                 }
                 if(bloodSugarLevel<70){
                     TextView tv = findViewById(R.id.daily_treatment_blood_sugar_level_attention);
-                    tv.setText("Blood sugar level is too low!");
+                    tv.setText(R.string.hipoglicemic);
                     findViewById(R.id.daily_treatment_blood_sugar_level_attention).setVisibility(View.VISIBLE);
                 }
                 if(bloodSugarLevel>70&&bloodSugarLevel<180){
@@ -111,6 +112,30 @@ public class DailyTreatmentActivity extends AppCompatActivity {
 
 
                 Intent intent = new Intent(getApplicationContext(), MenuActivity.class).putExtra("nrOfCarbs",n.toString());
+
+                if(bloodSugarLevel < 70) {
+                    Toast toast = Toast.makeText(getApplicationContext(),  R.string.advice_hipo_meal, Toast.LENGTH_LONG);
+                    View toastView = toast.getView();
+                    TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+                    toastMessage.setTextSize(25);
+                    toastMessage.setTextColor(getResources().getColor(R.color.red));
+                    toastMessage.setGravity(Gravity.CENTER);
+                    toastMessage.setCompoundDrawablePadding(16);
+                    toastView.setBackgroundColor(getResources().getColor(R.color.lightpurple));
+                    toast.show();
+                } else if(bloodSugarLevel > 180){
+                    Toast toast = Toast.makeText(getApplicationContext(),  R.string.advice_hiper_meal, Toast.LENGTH_LONG);
+                    View toastView = toast.getView();
+                    TextView toastMessage = (TextView) toastView.findViewById(android.R.id.message);
+                    toastMessage.setTextSize(25);
+                    toastMessage.setTextColor(getResources().getColor(R.color.red));
+                    toastMessage.setGravity(Gravity.CENTER);
+                    toastMessage.setCompoundDrawablePadding(16);
+                    toastView.setBackgroundColor(getResources().getColor(R.color.lightpurple));
+                    toast.show();
+
+                }
+
                 startActivity(intent);
             }
         };

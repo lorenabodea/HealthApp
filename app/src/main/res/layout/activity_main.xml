@@ -9,7 +9,7 @@
     android:padding="10dp">
 
     <LinearLayout
-        android:paddingTop="40dp"
+        android:paddingTop="20dp"
         android:gravity="center"
         android:clipToPadding="false"
         android:layout_width="match_parent"
@@ -53,6 +53,41 @@
                 android:gravity="center">
                 <ImageView
                     android:clickable="true"
+                    android:onClick="go_to_graphs"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/circlebackgroundpurple"
+                    android:src="@drawable/ic_graph"
+                    android:padding="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/main_glycemic_graph"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <android.support.v7.widget.CardView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_margin="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:clickable="true"
                     android:onClick="go_to_daily_treatment"
                     android:id="@+id/main_add_daily_treatment"
                     android:layout_width="64dp"
@@ -68,14 +103,6 @@
                     android:text="@string/main_daily_treatment"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
-
-    </LinearLayout>
-    <LinearLayout
-        android:gravity="center"
-        android:clipToPadding="false"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
         <android.support.v7.widget.CardView
             android:layout_width="160dp"
             android:layout_height="160dp"
@@ -101,45 +128,25 @@
                     android:text="@string/main_jurnal"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_margin="10dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center">
-                <ImageView
-                    android:clickable="true"
-                    android:onClick="go_to_graphs"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:background="@drawable/circlebackgroundpurple"
-                    android:src="@drawable/ic_graph"
-                    android:padding="10dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/main_glycemic_graph"
-                    android:gravity="center"/>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+
 
     </LinearLayout>
 
     <LinearLayout
-        android:gravity="center"
-        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:gravity="center"
         android:orientation="horizontal">
 
 
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/main_text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
     <TextView
         android:id="@+id/main_text"

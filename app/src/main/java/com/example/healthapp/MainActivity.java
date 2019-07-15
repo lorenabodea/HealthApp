@@ -37,6 +37,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
      TextView text;
+     TextView text1;
      Long carbsPerDay ;
      Integer kcalsPerDay;
      ImageView addGlycemicValue;
@@ -55,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
         text = findViewById(R.id.main_text);
         text.setVisibility(View.INVISIBLE);
-        setDailyNutrients();
+        text1 = findViewById(R.id.main_text1);
+        text1.setVisibility(View.INVISIBLE);
+//        setDailyNutrients();
     }
 
     private void setDailyNutrients() {
@@ -73,15 +76,20 @@ public class MainActivity extends AppCompatActivity {
                                 kcalsPerDay = child.getValue(Integer.class);
                             }
                         }
+                        text1.setVisibility(View.VISIBLE);
                         text.setVisibility(View.VISIBLE);
                         if(carbsPerDay >= 0) {
-                            String textToShow = getString(R.string.main_text_1)+ " " + carbsPerDay +" " + getString(R.string.main_text_2) +" " + kcalsPerDay+ " " +getString(R.string.main_text_3) ;
-                            text.setText(textToShow);
+                            String textToShow1 = getString(R.string.main_text_1)+ " " + carbsPerDay +" " + getString(R.string.main_text_2);
+                            text1.setText(textToShow1);
 
                         } else {
-                            String textToShow = getString(R.string.menu_text2_1)+ " " + -carbsPerDay +" " + getString(R.string.menu_text2_2) +" " + kcalsPerDay+ " " +getString(R.string.main_text_3) ;
-                            text.setText(textToShow);
+                            String textToShow = getString(R.string.menu_text2_1)+ " " + -carbsPerDay +" " + getString(R.string.menu_text2_2);
+                            text1.setText(textToShow);
                         }
+                        String textToShow = getString(R.string.main_text_1_1)+" " + kcalsPerDay+ " " +getString(R.string.main_text_3);
+                        text.setText(textToShow);
+                        text1.setTextColor(getResources().getColor(R.color.blueish));
+                        text.setTextColor(getResources().getColor(R.color.blueish));
 
                     }
                     @Override
@@ -179,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog alert11 = builder1.create();
         alert11.show();
+        alert11.getWindow().setBackgroundDrawableResource(android.R.color.holo_purple);
     }
 
     private void showChangeLanguageDialog() {
@@ -233,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         final Spinner timeOfMealSpinner = mView.findViewById(R.id.graph_options_timeOfTheDay_spinner);
         ArrayAdapter<String> adapterMeal = new ArrayAdapter<String>(MainActivity.this,
                 android.R.layout.simple_spinner_item,
-                getResources().getStringArray(R.array.timeOfMeal));
+                getResources().getStringArray(R.array.timeOfMealDialog));
         adapterMeal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timeOfMealSpinner.setAdapter(adapterMeal);
 
@@ -260,14 +269,14 @@ public class MainActivity extends AppCompatActivity {
         final Spinner isBeforeMealSpinner = mView.findViewById(R.id.graph_options_isBeforeMeal_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
                 android.R.layout.simple_spinner_item,
-                getResources().getStringArray(R.array.isBeforeMealList));
+                getResources().getStringArray(R.array.isBeforeMealListDialog));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         isBeforeMealSpinner.setAdapter(adapter);
 
         final Spinner timeOfMealSpinner = mView.findViewById(R.id.graph_options_timeOfTheDay_spinner);
         ArrayAdapter<String> adapterMeal = new ArrayAdapter<String>(MainActivity.this,
                 android.R.layout.simple_spinner_item,
-                getResources().getStringArray(R.array.timeOfMeal));
+                getResources().getStringArray(R.array.timeOfMealDialog));
         adapterMeal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timeOfMealSpinner.setAdapter(adapterMeal);
 
@@ -279,6 +288,27 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), GlycemicGraphActivity.class);
                 Bundle extras = new Bundle();
+                if(optionIsBeforeMeal.equals("Nimic")) {
+                    optionIsBeforeMeal = "none";
+                }
+                if(optionIsBeforeMeal.equals("Înainte de masă")) {
+                    optionIsBeforeMeal = "Before meal";
+                }
+                if(optionIsBeforeMeal.equals("După masă")) {
+                    optionIsBeforeMeal = "After meal";
+                }
+                if(optionTimeOfMeal.equals("Nimic")) {
+                    optionTimeOfMeal = "none";
+                }
+                if(optionTimeOfMeal.equals("Mic dejun")) {
+                    optionTimeOfMeal = "Breakfast";
+                }
+                if(optionTimeOfMeal.equals("Prânz")) {
+                    optionTimeOfMeal = "Lunch";
+                }
+                if(optionTimeOfMeal.equals("Cină")) {
+                    optionTimeOfMeal = "Dinner";
+                }
                 extras.putString("optionIsBeforeMeal",optionIsBeforeMeal);
                 extras.putString("optionTimeOfMeal",optionTimeOfMeal);
                 intent.putExtras(extras);

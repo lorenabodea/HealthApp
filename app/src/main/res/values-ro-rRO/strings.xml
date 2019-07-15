@@ -27,7 +27,7 @@
     <string name="main_daily_treatment">Adaugă tratament</string>
     <string name="jural_option_timeOftheDay">Timpul zilei</string>
     <string name="graph_options_title">Alege opțiuni pentru grafic</string>
-    <string name="graph_option_timeOfTheDay">Timpul meseu</string>
+    <string name="graph_option_timeOfTheDay">Timpul mesei</string>
     <string name="graph_option_beforeAfterMeal">Valorile înainte/după masă</string>
     <string name="glycemiy_graph_title">Grafic cu glicemii</string>
     <string name="glycemic_profile_save_btn">Salvează</string>
@@ -74,31 +74,47 @@
     <string name="create_profile_carbs">Cabohidrați pe zi</string>
     <string name="calcel">Anulează</string>
     <string name="dialog_language_title">Alegeți limba</string>
-    <string name="main_text_1">Salut! pentru astăzi ai</string>
-    <string name="main_text_2">carbohidrați ramași și ai consumat</string>
-    <string name="main_text_3">calorii.</string>
-    <string name="menu_text2_1">Salut! Astăzi ai depășit numărul de carbohidrați cu </string>
-    <string name="menu_text2_2">grame și ai consumat </string>
+    <string name="main_text_1">La ultima masă ai consumat mai puțin cu </string>
+    <string name="main_text_2">carbohidrați.</string>
+    <string name="main_text_3">kcal.</string>
+    <string name="menu_text2_1">La ultima masă ai depășit numărul de carbohidrați cu </string>
+    <string name="menu_text2_2">grame.</string>
     <string name="menu_finish">Finalizează</string>
-    <string name="hyperglycemic">Glicemia este prea mare!</string>
-    <string name="hipoglicemic">Glicemia este prea mică!</string>
     <string name="noFoodError1">Niciun aliment cu denumirea:</string>
     <string name="noFoodError2">nu a fost găsit!</string>
     <string name="carbsExceeded1">carbohidrați depașiți</string>
     <string name="carbsExceeded2">calorii consumate</string>
     <string name="carbsExceeded3">carbs left and</string>
     <string name="menuDialogTitle">Atenționare depășire carbohidrați</string>
-    <string name="terms_and_conditions">Prezenta aplicație nu reprezintă indicația directa a unui medic individualizata pe situația fiecărui pacient. In cazul in care exista aspecte deosebite care pot duce la complicații, va rugam sa apelați la un medic specializat. Sfaturile acordate se bazează pe experiența medicilor specializați pe o gama variata de subiecți, dar sunt strict orientative. Pentru un tratament individualizat, propunem suplimentar aplicației, solicitarea unei păreri specializate din partea medicilor.</string>
+    <string name="terms_and_conditions">Prezenta aplicație nu reprezintă indicația directă a unui medic individualizată pe situația fiecărui pacient. În cazul în care există aspecte deosebite care pot duce la complicații, vă rugam să apelați la un medic specializat. Sfaturile acordate se bazează pe experiența medicilor specializați pe o gama variata de subiecți, dar sunt strict orientative. Pentru un tratament individualizat, propunem suplimentar aplicației, solicitarea unei păreri specializate din partea medicilor.</string>
+    <string name="main_preText">Bună! Acestea sunt detaliile referitoare la ultima ta masă:</string>
+    <string name="main_text_1_1">Astăzi ai un aport caloric de</string>
+    <string name="advice_hipo">Ar trebui să consumați ceva dulce cât mai repede posibil!</string>
+    <string name="advice_hiper">Este indicat să faceti o injecție de corecție de insulină și să beți niște apă!</string>
+    <string name="advice_hipo_meal">Este indicat ca mai întâi să serviți masa, apoi să faceți injecția de insulină! Puteți începe cu ceva dulce.</string>
+    <string name="advice_hiper_meal">Este indicat să faceți injecția de insulină, apoi să luați o pauza de până la jumătate de oră până la servirea mesei.</string>
+    <string name="hyperglycemic">Glicemia este prea mare!</string>
+    <string name="hipoglicemic">Glicemia este prea mică!</string>
+    <string name="menu_title">Creare meniu</string>
+    <string name="daily_title">Jurnal tratament</string>
     <string-array name="isBeforeMealList">
-        <item>Nimic</item>
         <item>Înainte de masă</item>
         <item>După masă</item>
     </string-array>
     <string-array name="timeOfMeal">
+        <item>Mic dejun</item>
+        <item>Prânz</item>
+        <item>Cină</item>
+    </string-array>
+    <string-array name="isBeforeMealListDialog">
+        <item>Nimic</item>
+        <item>Înainte de masă</item>
+        <item>După masă</item>
+    </string-array>
+    <string-array name="timeOfMealDialog">
         <item>Nimic</item>
         <item>Mic dejun</item>
         <item>Prânz</item>
         <item>Cină</item>
     </string-array>
-
 </resources>

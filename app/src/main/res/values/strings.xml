@@ -73,14 +73,12 @@
     <string name="menu_guide">Guide</string>
     <string name="menu_terms">Terms and conditions</string>
     <string name="dialog_language_title">Choose language</string>
-    <string name="main_text_1">Hello! For today, you have</string>
+    <string name="main_text_1">You have</string>
     <string name="main_text_2">carbohydrates left and you consumed</string>
     <string name="main_text_3">calories</string>
-    <string name="menu_text2_1">Hello! For today, you have exceeded the carbohydrates number with</string>
+    <string name="menu_text2_1">You have exceeded the carbohydrates number with</string>
     <string name="menu_text2_2">grams and you consumed</string>
     <string name="menu_finish">Done</string>
-    <string name="hyperglycemic">Blood sugar level is too high!</string>
-    <string name="hipoglicemic">Blood sugar level is too low!</string>
     <string name="noFoodError1">No food found with the name:</string>
     <string name="noFoodError2">was found</string>
     <string name="carbsExceeded1">carbs exceeded and</string>
@@ -88,13 +86,32 @@
     <string name="carbsExceeded3">carbs left and</string>
     <string name="menuDialogTitle">Exceeded carbs limit warning</string>
     <string name="terms_and_conditions">Prezenta aplicație nu reprezintă indicația directa a unui medic individualizata pe situația fiecărui pacient. In cazul in care exista aspecte deosebite care pot duce la complicații, va rugam sa apelați la un medic specializat. Sfaturile acordate se bazează pe experiența medicilor specializați pe o gama variata de subiecți, dar sunt strict orientative. Pentru un tratament individualizat, propunem suplimentar aplicației, solicitarea unei păreri specializate din partea medicilor.</string>
+    <string name="main_preText">Hello! These are the details of your last meal:</string>
+    <string name="main_text_1_1">Astăzi ai un aport caloric de</string>
+    <string name="advice_hipo">You shoult take something sweet to eat as fast as possible!</string>
+    <string name="advice_hiper">You should inject some insulin and drink some water!</string>
+    <string name="advice_hipo_meal">Ypu shoult first eat and then take the insulin shot! You can treat yourself with something sweet.</string>
+    <string name="advice_hiper_meal">It is better for you to take the insulin shot and take a break of maximum half an hour, and then eat.</string>
+    <string name="hyperglycemic">Blood sugar level is too high!</string>
+    <string name="hipoglicemic">Blood sugar level is too low!</string>
+    <string name="menu_title">Create menu</string>
+    <string name="daily_title">Daily treatment</string>
     <string-array name="isBeforeMealList">
-        <item>None</item>
         <item>Before meal</item>
         <item>After meal</item>
     </string-array>
     <string-array name="timeOfMeal">
-        <item>None</item>
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+    </string-array>
+    <string-array name="isBeforeMealListDialog">
+        <item>none</item>
+        <item>Before meal</item>
+        <item>After meal</item>
+    </string-array>
+    <string-array name="timeOfMealDialog">
+        <item>none</item>
         <item>Breakfast</item>
         <item>Lunch</item>
         <item>Dinner</item>
