@@ -21,8 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.568"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.763">
+        app:layout_constraintTop_toBottomOf="@+id/treatment_profile_title">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/create_treatment_profile_carbs_per_day_tie"
@@ -77,5 +76,23 @@
             android:layout_height="wrap_content"
             android:hint="@string/create_treatment_profile_t2_name" />
     </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/treatment_profile_title"
+        android:text="@string/treatment_profile_title1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:gravity="center"/>
 
 </android.support.constraint.ConstraintLayout>

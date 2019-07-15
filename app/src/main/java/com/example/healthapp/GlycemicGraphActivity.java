@@ -50,7 +50,8 @@ public class GlycemicGraphActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     GlycemicProfile glycemicProfile = postSnapshot.getValue(GlycemicProfile.class);
-                    dailys.add(glycemicProfile);
+                    if(dailys.size()<30)
+                        dailys.add(glycemicProfile);
                 }
 
                 mpLineChart = findViewById(R.id.chart);

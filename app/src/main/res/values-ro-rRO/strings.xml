@@ -82,13 +82,13 @@
     <string name="menu_finish">Finalizează</string>
     <string name="noFoodError1">Niciun aliment cu denumirea:</string>
     <string name="noFoodError2">nu a fost găsit!</string>
-    <string name="carbsExceeded1">carbohidrați depașiți</string>
+    <string name="carbsExceeded1">carbohidrați depașiți și</string>
     <string name="carbsExceeded2">calorii consumate</string>
-    <string name="carbsExceeded3">carbs left and</string>
+    <string name="carbsExceeded3">carbohidrați rămași și</string>
     <string name="menuDialogTitle">Atenționare depășire carbohidrați</string>
     <string name="terms_and_conditions">Prezenta aplicație nu reprezintă indicația directă a unui medic individualizată pe situația fiecărui pacient. În cazul în care există aspecte deosebite care pot duce la complicații, vă rugam să apelați la un medic specializat. Sfaturile acordate se bazează pe experiența medicilor specializați pe o gama variata de subiecți, dar sunt strict orientative. Pentru un tratament individualizat, propunem suplimentar aplicației, solicitarea unei păreri specializate din partea medicilor.</string>
     <string name="main_preText">Bună! Acestea sunt detaliile referitoare la ultima ta masă:</string>
-    <string name="main_text_1_1">Astăzi ai un aport caloric de</string>
+    <string name="main_text_1_1">De asemenea, ai avut un aport caloric de</string>
     <string name="advice_hipo">Ar trebui să consumați ceva dulce cât mai repede posibil!</string>
     <string name="advice_hiper">Este indicat să faceti o injecție de corecție de insulină și să beți niște apă!</string>
     <string name="advice_hipo_meal">Este indicat ca mai întâi să serviți masa, apoi să faceți injecția de insulină! Puteți începe cu ceva dulce.</string>
@@ -97,6 +97,8 @@
     <string name="hipoglicemic">Glicemia este prea mică!</string>
     <string name="menu_title">Creare meniu</string>
     <string name="daily_title">Jurnal tratament</string>
+    <string name="treatment_profile_title1">Profil tratament</string>
+    <string name="guide">Această aplicație este destinată persoanelor care suferă de diabet tip 1 insulino-dependent. Funcționalitățile de bază ale aplicației sunt sprijinul în calcularea meniurilor, în salvarea jurnalului de tratament și în reprezentarea vizuală a datelor. Pentru a înregistra valori ale glicemie, selectați opțiunea „Adaugă valoare glicemică”, iar pentru vizualizarea datelor selectați ”Grafic cu valorile glicemice”. Pentru notarea jurnalului de tratament și crearea meniurilor, selectați opțiunea „Adaugă tratament” și urmați pașii. Pentru vizualizarea corelațiilor între valorile glicemiei, a numărului de carbohidrați și ale dozelor de insulină, selectați opțiunea „Jurnal”.</string>
     <string-array name="isBeforeMealList">
         <item>Înainte de masă</item>
         <item>După masă</item>

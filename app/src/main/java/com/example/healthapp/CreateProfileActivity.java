@@ -111,7 +111,8 @@ public class CreateProfileActivity extends AppCompatActivity {
                 user.setUserID(currentFirebaseUser.getDisplayName());
                 String userId = mDatabase.push().getKey();
                 mDatabase.child(currentFirebaseUser.getUid()+"/profile").child(userId).setValue(user);
-
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
 
             }
         };

@@ -14,19 +14,24 @@
 
         <TextView
             android:id="@+id/create_profile_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+
             android:text="@string/create_profile_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.13"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/create_profile_title" />
+            tools:text="@string/create_profile_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:gravity="center"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/create_profile_fname_til"
@@ -188,8 +193,8 @@
             android:id="@+id/create_profile_female"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="236dp"
-            android:layout_marginRight="236dp"
+            android:layout_marginEnd="196dp"
+            android:layout_marginRight="196dp"
             android:text="@string/create_profile_female"
             app:layout_constraintBottom_toBottomOf="@+id/create_profile_gender_rg"
             app:layout_constraintEnd_toEndOf="parent"

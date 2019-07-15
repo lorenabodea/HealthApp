@@ -46,7 +46,8 @@ public class JurnalActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     DailyTreatment dailyTreatment = postSnapshot.getValue(DailyTreatment.class);
-                    dailys.add(dailyTreatment);
+                    if(dailys.size()<30)
+                        dailys.add(dailyTreatment);
                 }
 
                 mpLineChart = findViewById(R.id.chart);

@@ -129,10 +129,10 @@ public class MenuActivity extends AppCompatActivity {
                                 } else {
 
                                     nrOfCarbs = FoodParser.fromJson(s).getCarbs();
-                                    Double nrOfKcals = FoodParser.fromJson(s).getCalories();
+                                    final Double nrOfKcals = FoodParser.fromJson(s).getCalories();
                                     Nutrients nutrients = new Nutrients(nrOfCarbs, nrOfKcals);
                                     nutrientsList.add(nutrients);
-                                    kcalsConsumed += (quant * nrOfKcals) / 100;
+
                                     final Menu menu = new Menu(foodName, quant);
 
                                     if (nrOfCarbsLeft - nrOfCarbs / 100 * quant < 0) {
@@ -148,6 +148,7 @@ public class MenuActivity extends AppCompatActivity {
                                                 })
                                                 .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int id) {
+                                                        kcalsConsumed += (quant * nrOfKcals) / 100;
                                                         addInFirebase(menu);
 
                                                         nrOfCarbsLeft -= nrOfCarbs / 100 * quant;
@@ -160,6 +161,7 @@ public class MenuActivity extends AppCompatActivity {
                                         alert.setTitle(getString(R.string.menuDialogTitle));
                                         alert.show();
                                     } else {
+                                        kcalsConsumed += (quant * nrOfKcals) / 100;
                                         addInFirebase(menu);
 
                                         nrOfCarbsLeft -= nrOfCarbs / 100 * quant;
@@ -259,9 +261,9 @@ public class MenuActivity extends AppCompatActivity {
                 resetNutrients(nrOfCarbsLeft, kcalsConsumed);
 
                 if (nrOfCarbsLeft < 0) {
-                    remainingCarbsTV.setText(-nrOfCarbsLeft.intValue() + " carbs exceeded and " + kcalsConsumed.intValue() + " calories consumed");
+                    remainingCarbsTV.setText(-nrOfCarbsLeft.intValue()+ " " + getString(R.string.carbsExceeded1)+ " " + kcalsConsumed.intValue()+ " " + getString(R.string.carbsExceeded2));
                 } else {
-                    remainingCarbsTV.setText(nrOfCarbsLeft.intValue() + " carbs left and " + kcalsConsumed.intValue() + " calories consumed");
+                    remainingCarbsTV.setText(nrOfCarbsLeft.intValue()+ " " + getString(R.string.carbsExceeded3)+ " " + kcalsConsumed.intValue()+ " " + getString(R.string.carbsExceeded2));
                 }
 
 

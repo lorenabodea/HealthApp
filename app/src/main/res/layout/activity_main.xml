@@ -146,12 +146,15 @@
         android:id="@+id/main_text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="TextView"
+        android:layout_marginTop="40dp"
+        android:textSize="18dp"/>
 
     <TextView
         android:id="@+id/main_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textSize="18dp"/>
 
 </LinearLayout>

@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         text.setVisibility(View.INVISIBLE);
         text1 = findViewById(R.id.main_text1);
         text1.setVisibility(View.INVISIBLE);
-//        setDailyNutrients();
+        setDailyNutrients();
     }
 
     private void setDailyNutrients() {
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
+       // Intent intent;
         switch (item.getItemId()){
             case R.id.menu_log_out:
                 AuthUI.getInstance()
@@ -156,11 +156,12 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUtil.detachListener();
                 break;
             case R.id.menu_treatment_profile:
-                intent = new Intent(getApplicationContext(), CreateTreatmentProfileActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CreateTreatmentProfileActivity.class);
                 startActivity(intent);
+                break;
             case R.id.menu_general_profile:
-                intent = new Intent(getApplicationContext(), CreateProfileActivity.class);
-                startActivity(intent);
+               Intent intent2 = new Intent(getApplicationContext(), CreateProfileActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.menu_language:
                 showChangeLanguageDialog();
@@ -168,8 +169,29 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_terms:
                 openDialogTerms();
                 break;
+            case R.id.menu_guide:
+                openDialogGuide();
+                break;
         }
         return true;
+    }
+
+    private void openDialogGuide() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+        builder1.setMessage(R.string.guide);
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+        alert11.getWindow().setBackgroundDrawableResource(android.R.color.holo_purple);
     }
 
     private void openDialogTerms() {
@@ -235,31 +257,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void go_to_jurnal(View view) {
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
-        View mView = getLayoutInflater().inflate(R.layout.graph_options_dialog_spinner, null);
-        mBuilder.setTitle(R.string.graph_options_title);
+        Intent intent = new Intent(getApplicationContext(), JurnalActivity.class);
+        startActivity(intent);
 
-        final Spinner timeOfMealSpinner = mView.findViewById(R.id.graph_options_timeOfTheDay_spinner);
-        ArrayAdapter<String> adapterMeal = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.simple_spinner_item,
-                getResources().getStringArray(R.array.timeOfMealDialog));
-        adapterMeal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeOfMealSpinner.setAdapter(adapterMeal);
-
-        mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String optionTimeOfMeal = timeOfMealSpinner.getSelectedItem().toString();
-                Intent intent = new Intent(getApplicationContext(), JurnalActivity.class);
-                Bundle extras = new Bundle();
-                extras.putString("optionTimeOfMeal",optionTimeOfMeal);
-                intent.putExtras(extras);
-                startActivity(intent);
-            }
-        });
-
-        mBuilder.setView(mView);
-        mBuilder.create().show();
     }
 
     public void go_to_graphs(View view) {

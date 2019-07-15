@@ -130,6 +130,9 @@ public class CreateTreatmentProfileActivity extends AppCompatActivity {
                 FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid() + "/user_treatment").child("day_treatment_name").setValue(dayTreatment);
                 FirebaseUtil.mDatabase.child(FirebaseUtil.currentFirebaseUser.getUid() + "/user_treatment").child("night_treatment_name").setValue(nightTreatment);
 
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+
             }
         };
     }
